@@ -8,8 +8,21 @@ import net.minecraft.world.inventory.MenuType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.pastek.chemicalscience.ChemicalScience;
+import net.pastek.chemicalscience.common.inventory.container.ContainerCatalyticReformer;
 import net.pastek.chemicalscience.common.inventory.container.ContainerChemicalBench;
-import net.pastek.chemicalscience.common.inventory.container.*;
+import net.pastek.chemicalscience.common.inventory.container.ContainerCircuitMaker;
+import net.pastek.chemicalscience.common.inventory.container.ContainerFractionatingColumn;
+import net.pastek.chemicalscience.common.inventory.container.ContainerFuelCell;
+import net.pastek.chemicalscience.common.inventory.container.ContainerHDSUnit;
+import net.pastek.chemicalscience.common.inventory.container.ContainerLabBench;
+import net.pastek.chemicalscience.common.inventory.container.ContainerLabStorage;
+import net.pastek.chemicalscience.common.inventory.container.ContainerOrganicSolarPanel;
+import net.pastek.chemicalscience.common.inventory.container.ContainerRackM;
+import net.pastek.chemicalscience.common.inventory.container.ContainerRackS;
+import net.pastek.chemicalscience.common.inventory.container.ContainerRedoxFurnace;
+import net.pastek.chemicalscience.common.inventory.container.ContainerRoadMap;
+import net.pastek.chemicalscience.common.inventory.container.ContainerSpinCoater;
+import net.pastek.chemicalscience.common.inventory.container.ContainerSteamCracker;
 
 public class CSMenuTypes {
     public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(Registries.MENU, ChemicalScience.MOD_ID);

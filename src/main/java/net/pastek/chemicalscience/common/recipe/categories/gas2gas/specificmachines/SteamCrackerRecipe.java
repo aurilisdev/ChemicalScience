@@ -1,5 +1,7 @@
 package net.pastek.chemicalscience.common.recipe.categories.gas2gas.specificmachines;
 
+import java.util.List;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -7,9 +9,10 @@ import net.pastek.chemicalscience.ChemicalScience;
 import net.pastek.chemicalscience.common.recipe.categories.gas2gas.Gas2GasRecipe;
 import net.pastek.chemicalscience.registers.CSRecipies;
 import voltaic.api.gas.GasStack;
-import voltaic.common.recipe.recipeutils.*;
-
-import java.util.List;
+import voltaic.common.recipe.recipeutils.GasIngredient;
+import voltaic.common.recipe.recipeutils.ProbableFluid;
+import voltaic.common.recipe.recipeutils.ProbableGas;
+import voltaic.common.recipe.recipeutils.ProbableItem;
 
 public class SteamCrackerRecipe extends Gas2GasRecipe {
     public static final String RECIPE_GROUP = "steam_cracker_recipe";
@@ -19,11 +22,13 @@ public class SteamCrackerRecipe extends Gas2GasRecipe {
         super(group, inputGases, gasOutput, experience, ticks, usagePerTick, itemBiproducts, fluidBiproducts, gasBiproducts);
     }
 
+    @Override
     public RecipeSerializer<?> getSerializer() {
-        return (RecipeSerializer) CSRecipies.STEAM_CRACKER_SERIALIZER.get();
+        return CSRecipies.STEAM_CRACKER_SERIALIZER.get();
     }
 
+    @Override
     public RecipeType<?> getType() {
-        return (RecipeType) CSRecipies.STEAM_CRACKER_TYPE.get();
+        return CSRecipies.STEAM_CRACKER_TYPE.get();
     }
 }

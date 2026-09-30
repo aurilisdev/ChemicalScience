@@ -6,7 +6,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
-import net.pastek.chemicalscience.common.tile.TileLabBench;
 import net.pastek.chemicalscience.common.tile.TileLabStorage;
 import net.pastek.chemicalscience.registers.CSMenuTypes;
 import voltaic.prefab.inventory.container.types.GenericContainerBlockEntity;

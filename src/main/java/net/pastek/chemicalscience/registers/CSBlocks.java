@@ -1,10 +1,20 @@
 package net.pastek.chemicalscience.registers;
 
+import java.util.function.Supplier;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.DropExperienceBlock;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -13,13 +23,18 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.pastek.chemicalscience.ChemicalScience;
 import net.pastek.chemicalscience.common.block.CSBlockMachine;
-import net.pastek.chemicalscience.common.block.decoration.*;
+import net.pastek.chemicalscience.common.block.decoration.CSHalideLamp;
+import net.pastek.chemicalscience.common.block.decoration.CSLabSink;
+import net.pastek.chemicalscience.common.block.decoration.CSLabSupport;
+import net.pastek.chemicalscience.common.block.decoration.CSLadderBlock;
+import net.pastek.chemicalscience.common.block.decoration.CSScaffoldingHollow;
+import net.pastek.chemicalscience.common.block.decoration.CSScaffoldingOpen;
+import net.pastek.chemicalscience.common.block.decoration.CSSymbol;
 import net.pastek.chemicalscience.common.block.subtype.SubtypeChemicalMachine;
 import net.pastek.chemicalscience.common.tile.TileOrganicSolarPanel;
 import voltaic.common.block.BlockMachine;
 
-import java.util.function.Supplier;
-
+@SuppressWarnings("null")
 public class CSBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(ChemicalScience.MOD_ID);
 

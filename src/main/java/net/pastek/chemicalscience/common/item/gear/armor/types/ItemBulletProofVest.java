@@ -4,6 +4,8 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.function.Consumer;
 
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
@@ -11,11 +13,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.pastek.chemicalscience.ChemicalScience;
 import net.pastek.chemicalscience.registers.CSArmor;
 import net.pastek.chemicalscience.registers.CSCreativeTabs;
-import org.jetbrains.annotations.Nullable;
 import voltaic.common.item.gear.ItemVoltaicArmor;
 
 public class ItemBulletProofVest extends ItemVoltaicArmor {
@@ -36,6 +41,7 @@ public class ItemBulletProofVest extends ItemVoltaicArmor {
                 CSCreativeTabs.CHEMICAL_SCIENCE_TAB);
     }
 
+    @Override
     public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, @Nullable T entity, Consumer<Item> onBroken) {
         return 0;
     }
@@ -57,6 +63,7 @@ public class ItemBulletProofVest extends ItemVoltaicArmor {
         super.appendHoverText(stack, context, tooltip, flagIn);
     }
 
+    @Override
     public @Nullable ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
         return ARMOR_TEXTURE_LOCATION;
     }

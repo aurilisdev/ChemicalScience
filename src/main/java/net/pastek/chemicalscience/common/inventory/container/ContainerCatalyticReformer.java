@@ -11,8 +11,6 @@ import net.pastek.chemicalscience.prefab.screen.CSTextures;
 import net.pastek.chemicalscience.registers.CSMenuTypes;
 import voltaic.common.item.subtype.SubtypeItemUpgrade;
 import voltaic.prefab.inventory.container.slot.item.SlotGeneric;
-import voltaic.prefab.inventory.container.slot.item.type.SlotFluid;
-import voltaic.prefab.inventory.container.slot.item.type.SlotGas;
 import voltaic.prefab.inventory.container.slot.item.type.SlotRestricted;
 import voltaic.prefab.inventory.container.slot.item.type.SlotUpgrade;
 import voltaic.prefab.inventory.container.types.GenericContainerBlockEntity;
@@ -27,13 +25,14 @@ public class ContainerCatalyticReformer extends GenericContainerBlockEntity<Tile
     }
 
     public ContainerCatalyticReformer(int id, Inventory playerinv, Container inventory, ContainerData inventorydata) {
-        super((MenuType) CSMenuTypes.CONTAINER_CATALYTIC_REFORMER.get(), id, playerinv, inventory, inventorydata);
+        super(CSMenuTypes.CONTAINER_CATALYTIC_REFORMER.get(), id, playerinv, inventory, inventorydata);
     }
 
     public ContainerCatalyticReformer(MenuType<?> type, int id, Inventory playerinv, Container inventory, ContainerData inventorydata) {
         super(type, id, playerinv, inventory, inventorydata);
     }
 
+    @Override
     public void addInventorySlots(Container inv, Inventory playerinv) {
         setPlayerInvOffset(35);
         this.addSlot((new SlotGeneric(ScreenComponentSlot.SlotType.NORMAL, CSTextures.CATALYST_ICON, inv, this.nextIndex(), 26, 45)).setIOColor(new Color(80, 160, 130, 0)));

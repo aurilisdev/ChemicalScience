@@ -1,7 +1,18 @@
 package net.pastek.chemicalscience.client.roadmap;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+
+import org.joml.Quaternionf;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
@@ -18,10 +29,6 @@ import net.minecraft.world.level.lighting.LevelLightEngine;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.client.model.data.ModelData;
-import org.jetbrains.annotations.Nullable;
-import org.joml.Quaternionf;
-
-import java.util.*;
 
 public class MultiblockVisualizer {
 
@@ -150,9 +157,9 @@ public class MultiblockVisualizer {
 
         @Override public BlockState getBlockState(BlockPos pos) { return data.getOrDefault(pos, Blocks.AIR.defaultBlockState()); }
         @Override public FluidState getFluidState(BlockPos pos) { return Fluids.EMPTY.defaultFluidState(); }
-        @Override public LevelLightEngine getLightEngine() { return null; }
+        @Override public @Nullable LevelLightEngine getLightEngine() { return null; }
         @Override public int getBlockTint(BlockPos pos, ColorResolver colorResolver) { return -1; }
-        @Nullable @Override public BlockEntity getBlockEntity(BlockPos pos) { return null; }
+        @Override public @Nullable BlockEntity getBlockEntity(BlockPos pos) { return null; }
         @Override public int getBrightness(LightLayer layer, BlockPos pos) { return 15; }
         @Override public int getRawBrightness(BlockPos pos, int amount) { return 15; }
         @Override public int getHeight() { return 256; }

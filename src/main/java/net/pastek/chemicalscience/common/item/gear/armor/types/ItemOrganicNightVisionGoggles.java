@@ -1,5 +1,11 @@
 package net.pastek.chemicalscience.common.item.gear.armor.types;
 
+import java.util.EnumMap;
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+
+import electrodynamics.registers.ElectrodynamicsItems;
 import electrodynamics.registers.ElectrodynamicsSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
@@ -9,19 +15,19 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.pastek.chemicalscience.ChemicalScience;
 import net.pastek.chemicalscience.prefab.utils.CSTextUtils;
 import net.pastek.chemicalscience.registers.CSArmor;
 import net.pastek.chemicalscience.registers.CSDataComponentTypes;
-import electrodynamics.registers.ElectrodynamicsItems;
-import org.jetbrains.annotations.NotNull;
 import voltaic.api.item.IItemElectric;
 import voltaic.common.item.gear.ItemVoltaicArmor;
 import voltaic.prefab.item.ElectricItemProperties;
-
-import java.util.EnumMap;
-import java.util.List;
 
 public class ItemOrganicNightVisionGoggles extends ItemVoltaicArmor implements IItemElectric {
 

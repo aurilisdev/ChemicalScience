@@ -1,17 +1,19 @@
 package net.pastek.chemicalscience.common.recipe.categories.fluiditem2fluid.specificmachines;
 
+import java.util.List;
+
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.pastek.chemicalscience.ChemicalScience;
 import net.pastek.chemicalscience.registers.CSRecipies;
 import voltaic.common.recipe.categories.fluiditem2fluid.FluidItem2FluidRecipe;
-import voltaic.common.recipe.categories.fluiditem2item.FluidItem2ItemRecipe;
-import voltaic.common.recipe.recipeutils.*;
-
-import java.util.List;
+import voltaic.common.recipe.recipeutils.CountableIngredient;
+import voltaic.common.recipe.recipeutils.FluidIngredient;
+import voltaic.common.recipe.recipeutils.ProbableFluid;
+import voltaic.common.recipe.recipeutils.ProbableGas;
+import voltaic.common.recipe.recipeutils.ProbableItem;
 
 public class CatalyticReformerRecipe extends FluidItem2FluidRecipe {
     public static final String RECIPE_GROUP = "catalytic_reformer_recipe";
@@ -21,11 +23,13 @@ public class CatalyticReformerRecipe extends FluidItem2FluidRecipe {
         super(group, inputItems, inputFluids, fluidOutput, experience, ticks, usagePerTick, itemBiproducts, fluidBiproducts, gasBiproducts);
     }
 
+    @Override
     public RecipeSerializer<?> getSerializer() {
-        return (RecipeSerializer) CSRecipies.CATALYTIC_REFORMER_SERIALIZER.get();
+        return CSRecipies.CATALYTIC_REFORMER_SERIALIZER.get();
     }
 
+    @Override
     public RecipeType<?> getType() {
-        return (RecipeType)CSRecipies.CATALYTIC_REFORMER_TYPE.get();
+        return CSRecipies.CATALYTIC_REFORMER_TYPE.get();
     }
 }

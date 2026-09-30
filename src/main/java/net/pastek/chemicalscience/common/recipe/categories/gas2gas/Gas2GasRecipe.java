@@ -1,13 +1,18 @@
 package net.pastek.chemicalscience.common.recipe.categories.gas2gas;
 
+import java.util.List;
+
 import com.mojang.datafixers.util.Pair;
+
 import voltaic.api.gas.GasStack;
-import voltaic.common.recipe.recipeutils.*;
+import voltaic.common.recipe.recipeutils.AbstractMaterialRecipe;
+import voltaic.common.recipe.recipeutils.GasIngredient;
+import voltaic.common.recipe.recipeutils.ProbableFluid;
+import voltaic.common.recipe.recipeutils.ProbableGas;
+import voltaic.common.recipe.recipeutils.ProbableItem;
 import voltaic.prefab.tile.components.IComponentType;
 import voltaic.prefab.tile.components.type.ComponentGasHandlerMulti;
 import voltaic.prefab.tile.components.type.ComponentProcessor;
-
-import java.util.List;
 
 public abstract class Gas2GasRecipe extends AbstractMaterialRecipe {
 
@@ -22,7 +27,7 @@ public abstract class Gas2GasRecipe extends AbstractMaterialRecipe {
 
     @Override
     public boolean matchesRecipe(ComponentProcessor pr, int procNumber) {
-        Pair<List<Integer>, Boolean> gasPair = areGasesValid(getGasIngredients(), pr.getHolder().<ComponentGasHandlerMulti>getComponent(IComponentType.GasHandler).getInputTanks());
+        Pair<List<Integer>, Boolean> gasPair = areGasesValid(getGasIngredients(), pr.getHolder().<ComponentGasHandlerMulti>requireComponent(IComponentType.GasHandler).getInputTanks());
         if (gasPair.getSecond()) {
             setGasArrangement(gasPair.getFirst());
             return true;

@@ -1,16 +1,19 @@
 package net.pastek.chemicalscience.common.recipe.categories.misc;
 
 import java.util.Collections;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.pastek.chemicalscience.common.recipe.CSCountableIngredient;
-import org.jetbrains.annotations.NotNull;
 import voltaic.api.gas.GasStack;
 import voltaic.common.recipe.VoltaicRecipeSerializer;
 import voltaic.common.recipe.recipeutils.FluidIngredient;
@@ -24,7 +27,7 @@ public class ChemicalBenchRecipeSerializer extends VoltaicRecipeSerializer<Chemi
 
     private static final MapCodec<ChemicalBenchRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                     Codec.STRING.fieldOf(GROUP).forGetter(ChemicalBenchRecipe::getGroup),
-                    CSCountableIngredient.LIST_CODEC.optionalFieldOf(ITEM_INPUTS, Collections.emptyList()).forGetter(ChemicalBenchRecipe::getCountedIngredients),
+                    CSCountableIngredient.LIST_CODEC.optionalFieldOf(ITEM_INPUTS, Collections.emptyList()).forGetter(ChemicalBenchRecipe::getCSCountedIngredients),
                     FluidIngredient.LIST_CODEC.optionalFieldOf(FLUID_INPUTS, Collections.emptyList()).forGetter(ChemicalBenchRecipe::getFluidIngredients),
                     GasIngredient.LIST_CODEC.optionalFieldOf(GAS_INPUTS, Collections.emptyList()).forGetter(ChemicalBenchRecipe::getGasIngredients),
                     ItemStack.OPTIONAL_CODEC.optionalFieldOf("itemoutput", ItemStack.EMPTY).forGetter(ChemicalBenchRecipe::getItemRecipeOutput),
@@ -40,7 +43,7 @@ public class ChemicalBenchRecipeSerializer extends VoltaicRecipeSerializer<Chemi
 
     private static final StreamCodec<RegistryFriendlyByteBuf, ChemicalBenchRecipe> STREAM_CODEC = CodecUtils.composite(
             ByteBufCodecs.STRING_UTF8, ChemicalBenchRecipe::getGroup,
-            CSCountableIngredient.LIST_STREAM_CODEC, ChemicalBenchRecipe::getCountedIngredients,
+            CSCountableIngredient.LIST_STREAM_CODEC, ChemicalBenchRecipe::getCSCountedIngredients,
             FluidIngredient.LIST_STREAM_CODEC, ChemicalBenchRecipe::getFluidIngredients,
             GasIngredient.LIST_STREAM_CODEC, ChemicalBenchRecipe::getGasIngredients,
             ItemStack.OPTIONAL_STREAM_CODEC, ChemicalBenchRecipe::getItemRecipeOutput,

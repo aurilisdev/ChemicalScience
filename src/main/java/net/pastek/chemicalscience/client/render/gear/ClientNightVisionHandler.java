@@ -1,7 +1,14 @@
 package net.pastek.chemicalscience.client.render.gear;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -14,6 +21,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
@@ -24,10 +32,6 @@ import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.pastek.chemicalscience.ChemicalScience;
 import net.pastek.chemicalscience.common.item.gear.armor.types.ItemOrganicNightVisionGoggles;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 @EventBusSubscriber(modid = ChemicalScience.MOD_ID, value = Dist.CLIENT)
 public class ClientNightVisionHandler {
@@ -64,9 +68,11 @@ public class ClientNightVisionHandler {
         if (event.getName() != VanillaGuiLayers.CAMERA_OVERLAYS) return;
 
         Minecraft mc = Minecraft.getInstance();
-        if (mc.player == null || mc.level == null) return;
+        ClientLevel level = mc.level;
+	LocalPlayer player = mc.player;
+	if (player == null || level == null) return;
 
-        ItemStack helmet = mc.player.getItemBySlot(EquipmentSlot.HEAD);
+        ItemStack helmet = player.getItemBySlot(EquipmentSlot.HEAD);
         if (!(helmet.getItem() instanceof ItemOrganicNightVisionGoggles)) return;
 
         ItemOrganicNightVisionGoggles.ScannerMode mode = ItemOrganicNightVisionGoggles.getMode(helmet);
@@ -83,7 +89,7 @@ public class ClientNightVisionHandler {
 
         RenderSystem.enableBlend();
 
-        drawStaticNoise(event, width, height, mc.level.random);
+        drawStaticNoise(event, width, height, level.random);
 
         event.getGuiGraphics().fill(0, 0, width, height, 0x55052b05);
         drawVignette(event, width, height);
@@ -114,9 +120,12 @@ public class ClientNightVisionHandler {
     }
 
     private static void renderBiometricHud(RenderGuiLayerEvent.Post event, Minecraft mc) {
+        Level level = mc.level;
+        if(level == null) return;
+        
         int x = 10, y = 10;
-        int jX = (flashTicks > 0) ? mc.level.random.nextInt(3) - 1 : 0;
-        int jY = (flashTicks > 0) ? mc.level.random.nextInt(3) - 1 : 0;
+	int jX = (flashTicks > 0) ? level.random.nextInt(3) - 1 : 0;
+        int jY = (flashTicks > 0) ? level.random.nextInt(3) - 1 : 0;
 
         event.getGuiGraphics().drawString(mc.font, Component.translatable("component.chemicalscience.onvg.mode.entity"), x + jX, y + jY, 0x00FF00);
         y += 15;
@@ -131,9 +140,12 @@ public class ClientNightVisionHandler {
     }
 
     private static void renderOreHud(RenderGuiLayerEvent.Post event, Minecraft mc) {
+        Level level = mc.level;
+        if(level == null) return;
+        
         int x = 10, y = 10;
-        int jX = (flashTicks > 0) ? mc.level.random.nextInt(3) - 1 : 0;
-        int jY = (flashTicks > 0) ? mc.level.random.nextInt(3) - 1 : 0;
+	int jX = (flashTicks > 0) ? level.random.nextInt(3) - 1 : 0;
+        int jY = (flashTicks > 0) ? level.random.nextInt(3) - 1 : 0;
 
         event.getGuiGraphics().drawString(mc.font, Component.translatable("component.chemicalscience.onvg.mode.ore"), x + jX, y + jY, 0x57007F);
         y += 15;
@@ -156,8 +168,9 @@ public class ClientNightVisionHandler {
     }
 
     private static void updateBiometricScan(Minecraft mc, Player player) {
-        if (mc.level == null) return;
-        cachedBiometric = mc.level.getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(40.0D), e -> e != player)
+        ClientLevel level = mc.level;
+	if (level == null) return;
+        cachedBiometric = level.getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(40.0D), e -> e != player)
                 .stream()
                 .sorted((e1, e2) -> {
                     int s1 = getEntityPriority(e1), s2 = getEntityPriority(e2);
@@ -169,7 +182,8 @@ public class ClientNightVisionHandler {
     }
 
     private static void updateOreScan(Minecraft mc, Player player) {
-        if (mc.level == null) return;
+        ClientLevel level = mc.level;
+	if (level == null) return;
 
         java.util.Map<Block, Integer> closestOres = new java.util.HashMap<>();
         BlockPos p = player.blockPosition();
@@ -179,7 +193,7 @@ public class ClientNightVisionHandler {
             for (int y = -r; y <= r; y++) {
                 for (int z = -r; z <= r; z++) {
                     BlockPos pos = p.offset(x, y, z);
-                    BlockState s = mc.level.getBlockState(pos);
+                    BlockState s = level.getBlockState(pos);
 
                     if (s.is(ORE_TAG)) {
                         int dist = (int) Math.sqrt(p.distSqr(pos));

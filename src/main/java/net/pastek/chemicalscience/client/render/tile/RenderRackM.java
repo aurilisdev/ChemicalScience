@@ -1,19 +1,17 @@
 package net.pastek.chemicalscience.client.render.tile;
 
-import electrodynamics.datagen.server.tags.types.ElectrodynamicsItemTagsProvider;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagEntry;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.*;
-import net.pastek.chemicalscience.common.tile.TileRackM;
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
+import net.pastek.chemicalscience.common.tile.TileRackM;
 import net.pastek.chemicalscience.registers.CSTags;
 import voltaic.client.render.AbstractTileRenderer;
-import voltaic.common.tags.VoltaicTags;
 import voltaic.prefab.tile.components.IComponentType;
 import voltaic.prefab.tile.components.type.ComponentInventory;
 import voltaic.prefab.utilities.math.MathUtils;
@@ -49,7 +47,7 @@ public class RenderRackM extends AbstractTileRenderer<TileRackM> {
 
                 matrixStackIn.popPose();
 
-                ItemStack stack = tileRack.<ComponentInventory>getComponent(IComponentType.Inventory).getItem(0);
+                ItemStack stack = tileRack.<ComponentInventory>requireComponent(IComponentType.Inventory).getItem(0);
 
                 matrixStackIn.pushPose();
 

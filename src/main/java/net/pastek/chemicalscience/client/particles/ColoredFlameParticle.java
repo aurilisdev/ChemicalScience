@@ -1,9 +1,14 @@
 package net.pastek.chemicalscience.client.particles;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.*;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.client.particle.*;
 
 public class ColoredFlameParticle extends TextureSheetParticle {
     private final SpriteSet sprites;
@@ -63,7 +68,7 @@ public class ColoredFlameParticle extends TextureSheetParticle {
         public Provider(SpriteSet sprites) { this.sprites = sprites; }
 
         @Override
-        public Particle createParticle(DustParticleOptions type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
+        public @Nullable Particle createParticle(DustParticleOptions type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
             return new ColoredFlameParticle(level, x, y, z, dx, dy, dz, type, this.sprites);
         }
     }

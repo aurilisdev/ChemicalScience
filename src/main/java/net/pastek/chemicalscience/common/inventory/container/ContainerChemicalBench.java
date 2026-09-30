@@ -25,6 +25,7 @@ public class ContainerChemicalBench extends GenericContainerBlockEntity<TileChem
         super(CSMenuTypes.CONTAINER_CHEMICAL_BENCH.get(), id, playerinv, inventory, inventorydata);
     }
 
+    @Override
     public void addInventorySlots(Container inv, Inventory playerinv) {
         setPlayerInvOffset(70);
         addSlot((new SlotGeneric(inv, nextIndex(), 8, 100)).setIOColor(new Color(0, 240, 255, 255)));

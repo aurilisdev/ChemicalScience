@@ -1,9 +1,11 @@
 package net.pastek.chemicalscience.client.render.tile;
 
+import javax.annotation.Nullable;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -16,14 +18,13 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.pastek.chemicalscience.client.CSClientRegister;
 import net.pastek.chemicalscience.common.tile.TileChemicalBench;
-import net.pastek.chemicalscience.common.tile.TileFractionatingColumn;
 
 @OnlyIn(Dist.CLIENT)
 public class RenderChemicalBench implements BlockEntityRenderer<TileChemicalBench> {
 
     public RenderChemicalBench(BlockEntityRendererProvider.Context context) {}
 
-    private BakedModel cachedModel = null;
+    private @Nullable BakedModel cachedModel = null;
     private boolean modelLoadAttempted = false;
 
     @Override
@@ -32,18 +33,19 @@ public class RenderChemicalBench implements BlockEntityRenderer<TileChemicalBenc
 
         if (tile.isFormed.getValue() == true) {
 
-            if (!modelLoadAttempted) {
-                cachedModel = Minecraft.getInstance().getModelManager().getModel(CSClientRegister.CHEMICALBENCH_MODEL);
+            BakedModel parCachedModel = cachedModel;
+	    if (!modelLoadAttempted) {
+                parCachedModel = cachedModel = Minecraft.getInstance().getModelManager().getModel(CSClientRegister.CHEMICALBENCH_MODEL);
                 modelLoadAttempted = true;
 
-                if (cachedModel == Minecraft.getInstance().getModelManager().getMissingModel()) {
+                if (parCachedModel == Minecraft.getInstance().getModelManager().getMissingModel()) {
                     System.err.println("ERROR: Missing Multiblock Model at: " + CSClientRegister.CHEMICALBENCH_MODEL);
-                    cachedModel = null;
+                    parCachedModel = cachedModel = null;
                     return;
                 }
             }
 
-            if (cachedModel == null) return;
+            if (parCachedModel == null) return;
 
             poseStack.pushPose();
 
@@ -59,7 +61,7 @@ public class RenderChemicalBench implements BlockEntityRenderer<TileChemicalBenc
                     poseStack.last(),
                     buffer.getBuffer(RenderType.cutout()),
                     state,
-                    cachedModel,
+                    parCachedModel,
                     1f, 1f, 1f,
                     packedLight,
                     packedOverlay

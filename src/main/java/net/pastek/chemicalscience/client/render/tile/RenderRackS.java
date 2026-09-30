@@ -1,13 +1,14 @@
 package net.pastek.chemicalscience.client.render.tile;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.*;
-import net.minecraft.world.level.redstone.Redstone;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
 import net.pastek.chemicalscience.common.tile.TileRackS;
 import net.pastek.chemicalscience.registers.CSTags;
 import voltaic.client.render.AbstractTileRenderer;
@@ -46,7 +47,7 @@ public class RenderRackS extends AbstractTileRenderer<TileRackS> {
 
                 matrixStackIn.popPose();
 
-                ItemStack stack = tileRack.<ComponentInventory>getComponent(IComponentType.Inventory).getItem(0);
+                ItemStack stack = tileRack.<ComponentInventory>requireComponent(IComponentType.Inventory).getItem(0);
 
                 matrixStackIn.pushPose();
 

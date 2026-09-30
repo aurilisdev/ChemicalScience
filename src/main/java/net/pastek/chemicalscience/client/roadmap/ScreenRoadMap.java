@@ -1,9 +1,23 @@
 package net.pastek.chemicalscience.client.roadmap;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+
+import org.joml.Matrix4f;
+
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -12,14 +26,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.pastek.chemicalscience.ChemicalScience;
 import net.pastek.chemicalscience.common.inventory.container.ContainerRoadMap;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.joml.Matrix4f;
 import voltaic.prefab.screen.GenericScreen;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ScreenRoadMap extends GenericScreen<ContainerRoadMap> {
 
@@ -48,7 +55,7 @@ public class ScreenRoadMap extends GenericScreen<ContainerRoadMap> {
     private static final float ASPECT_RATIO = 4f / 3f;
 
     private Map<ResourceLocation, MultiblockVisualizer> VISUALIZERS = new HashMap<>();
-    private RoadmapNode selectedNode = null;
+    private @Nullable RoadmapNode selectedNode = null;
 
     public ScreenRoadMap(ContainerRoadMap container, Inventory inv, Component title) {
         super(container, inv, title);
@@ -56,10 +63,6 @@ public class ScreenRoadMap extends GenericScreen<ContainerRoadMap> {
 
     @Override
     protected void init() {
-        if (this.VISUALIZERS == null) {
-            this.VISUALIZERS = new HashMap<>();
-        }
-
         if (this.VISUALIZERS.isEmpty()) {
             loadVisualizers();
         }
@@ -207,7 +210,7 @@ public class ScreenRoadMap extends GenericScreen<ContainerRoadMap> {
     }
 
     @Override protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {}
-    @Override public void renderBackground(@NotNull GuiGraphics g, int mouseX, int mouseY, float partialTick) {}
+    @Override public void renderBackground(GuiGraphics g, int mouseX, int mouseY, float partialTick) {}
     @Override protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {}
 
     private void renderWindowFrame(GuiGraphics g) {
@@ -222,6 +225,7 @@ public class ScreenRoadMap extends GenericScreen<ContainerRoadMap> {
                 color);
     }
 
+    @SuppressWarnings("static-method")
     private void drawLine(GuiGraphics g, float x1, float y1, float x2, float y2, int color) {
         float dx = x2 - x1;
         float dy = y2 - y1;
@@ -313,7 +317,8 @@ public class ScreenRoadMap extends GenericScreen<ContainerRoadMap> {
             if (isMouseOverNode(node, worldX, worldY)) {
                 if (button == 0) {
                     selectedNode = node;
-                    if (selectedNode.visualizer() != null) {selectedNode.visualizer().resetAnimation();}
+                    MultiblockVisualizer visualizer = node.visualizer();
+		    if (visualizer != null) {visualizer.resetAnimation();}
                     Minecraft.getInstance().getSoundManager().play(net.minecraft.client.resources.sounds.SimpleSoundInstance.forUI(net.minecraft.sounds.SoundEvents.UI_BUTTON_CLICK, 1.0F));
                     return true;
                 } else if (button == 1) {
@@ -332,6 +337,7 @@ public class ScreenRoadMap extends GenericScreen<ContainerRoadMap> {
         return super.mouseClicked(mouseX, mouseY, button);
     }
 
+    @SuppressWarnings("static-method")
     private void toggleNodeStatus(RoadmapNode node) {
         NodeStatus current = NODE_PROGRESS.getOrDefault(node.id(), NodeStatus.NONE);
         NodeStatus next = switch (current) {
@@ -342,6 +348,7 @@ public class ScreenRoadMap extends GenericScreen<ContainerRoadMap> {
         NODE_PROGRESS.put(node.id(), next);
     }
 
+    @SuppressWarnings("static-method")
     private void blitCustom(GuiGraphics g, int x1, int x2, int y1, int y2, float u0, float u1, float v0, float v1) {
         Matrix4f matrix = g.pose().last().pose();
         BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
@@ -361,6 +368,7 @@ public class ScreenRoadMap extends GenericScreen<ContainerRoadMap> {
         }
     }
 
+    @SuppressWarnings("static-method")
     private boolean isMouseOverNode(RoadmapNode node, double wx, double wy) {
         return wx >= node.x() && wx <= node.x() + NODE_SIZE &&
                 wy >= node.y() && wy <= node.y() + NODE_SIZE;
@@ -378,69 +386,75 @@ public class ScreenRoadMap extends GenericScreen<ContainerRoadMap> {
 
         g.blit(TEXTURE_OVERLAY, px, py, 0, 0, panelSize, panelSize, 128, 128);
 
-        if (VISUALIZERS.containsKey(selectedNode.id())) {
-            int renderX = px + selectedNode.overlayImageX() + (selectedNode.overlayImageSize() / 2);
-            int renderY = py + selectedNode.overlayImageY() + (selectedNode.overlayImageSize() / 2) + 20;
+        RoadmapNode pSelectedNode = selectedNode;
+        if(pSelectedNode == null) return;
+        
+	if (VISUALIZERS.containsKey(pSelectedNode.id())) {
+            int renderX = px + pSelectedNode.overlayImageX() + (pSelectedNode.overlayImageSize() / 2);
+            int renderY = py + pSelectedNode.overlayImageY() + (pSelectedNode.overlayImageSize() / 2) + 20;
 
-            VISUALIZERS.get(selectedNode.id()).render(g, renderX, renderY, 20.0f);
+            VISUALIZERS.get(pSelectedNode.id()).render(g, renderX, renderY, 20.0f);
 
             RenderSystem.enableBlend();
-            if (selectedNode.overlayImageFrame()) {
+            if (pSelectedNode.overlayImageFrame()) {
                 g.pose().pushPose();
                 g.pose().translate(0, 0, 100);
-                g.blit(TEXTURE_IMAGE_FRAME, px + selectedNode.overlayImageX(), py + selectedNode.overlayImageY(), 0, 0, 96, 96, 96, 96);
+                g.blit(TEXTURE_IMAGE_FRAME, px + pSelectedNode.overlayImageX(), py + pSelectedNode.overlayImageY(), 0, 0, 96, 96, 96, 96);
                 g.pose().popPose();
             }
         }
-        else if (selectedNode.image() != null) {
-            renderNodeImage(g, selectedNode, px + selectedNode.overlayImageX(), py + selectedNode.overlayImageY());
+        else if (pSelectedNode.image() != null) {
+            renderNodeImage(g, pSelectedNode, px + pSelectedNode.overlayImageX(), py + pSelectedNode.overlayImageY());
 
             RenderSystem.enableBlend();
-            if (selectedNode.overlayImageFrame()) {
-                g.blit(TEXTURE_IMAGE_FRAME, px + selectedNode.overlayImageX(), py + selectedNode.overlayImageY(), 0, 0, 96, 96, 96, 96);
+            if (pSelectedNode.overlayImageFrame()) {
+                g.blit(TEXTURE_IMAGE_FRAME, px + pSelectedNode.overlayImageX(), py + pSelectedNode.overlayImageY(), 0, 0, 96, 96, 96, 96);
             }
         }
 
-        if (selectedNode.visualizer() != null) {
-            int renderX = px + selectedNode.overlayImageX() + (selectedNode.overlayImageSize() / 2);
-            int renderY = py + selectedNode.overlayImageY() + (selectedNode.overlayImageSize() / 2) + 10;
+        MultiblockVisualizer visualizer = pSelectedNode.visualizer();
+	if (visualizer != null) {
+            int renderX = px + pSelectedNode.overlayImageX() + (pSelectedNode.overlayImageSize() / 2);
+            int renderY = py + pSelectedNode.overlayImageY() + (pSelectedNode.overlayImageSize() / 2) + 10;
 
-            selectedNode.visualizer().render(g, renderX, renderY, 25.0f);
-        } else if (selectedNode.image() != null) {
-            renderNodeImage(g, selectedNode, px + selectedNode.overlayImageX(), py + selectedNode.overlayImageY());
+            visualizer.render(g, renderX, renderY, 25.0f);
+        } else if (pSelectedNode.image() != null) {
+            renderNodeImage(g, pSelectedNode, px + pSelectedNode.overlayImageX(), py + pSelectedNode.overlayImageY());
         }
 
-        g.drawWordWrap(font, selectedNode.title(),
-                px + selectedNode.overlayTitleX(),
-                py + selectedNode.overlayTitleY(),
-                selectedNode.overlayTextWidth(),
+        g.drawWordWrap(font, pSelectedNode.title(),
+                px + pSelectedNode.overlayTitleX(),
+                py + pSelectedNode.overlayTitleY(),
+                pSelectedNode.overlayTextWidth(),
                 0xFFFFFF);
 
-        g.drawWordWrap(font, selectedNode.description(),
-                px + selectedNode.overlayDescX(),
-                py + selectedNode.overlayDescY(),
-                selectedNode.overlayTextWidth(),
+        g.drawWordWrap(font, pSelectedNode.description(),
+                px + pSelectedNode.overlayDescX(),
+                py + pSelectedNode.overlayDescY(),
+                pSelectedNode.overlayTextWidth(),
                 0xDDDDDD);
 
         g.pose().popPose();
     }
 
     private void renderNodeImage(GuiGraphics g, RoadmapNode node, int x, int y) {
-        if (node.image() == null) return;
+        ResourceLocation image = node.image();
+	if (image == null) return;
         int imgSize = node.overlayImageSize();
 
         if (node.animationFrames() > 1) {
-            assert Minecraft.getInstance().level != null;
-            long tick = Minecraft.getInstance().level.getGameTime();
+            ClientLevel level = Minecraft.getInstance().level;
+            if (level == null) return;
+            long tick = level.getGameTime();
             int frame = (int) ((tick / 2) % node.animationFrames());
-            RenderSystem.setShaderTexture(0, node.image());
+            RenderSystem.setShaderTexture(0, image);
             float u0 = 0;
             float u1 = 1;
             float v0 = (float) frame / node.animationFrames();
             float v1 = (float) (frame + 1) / node.animationFrames();
             blitCustom(g, x, x + imgSize, y, y + imgSize, u0, u1, v0, v1);
         } else {
-            g.blit(node.image(), x, y, 0, 0, imgSize, imgSize, imgSize, imgSize);
+            g.blit(image, x, y, 0, 0, imgSize, imgSize, imgSize, imgSize);
         }
     }
 

@@ -3,12 +3,16 @@ package net.pastek.chemicalscience.common.recipe.categories.gas2gas;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import voltaic.api.gas.GasStack;
 import voltaic.common.recipe.VoltaicRecipeSerializer;
-import voltaic.common.recipe.recipeutils.*;
+import voltaic.common.recipe.recipeutils.GasIngredient;
+import voltaic.common.recipe.recipeutils.ProbableFluid;
+import voltaic.common.recipe.recipeutils.ProbableGas;
+import voltaic.common.recipe.recipeutils.ProbableItem;
 import voltaic.prefab.utilities.CodecUtils;
 
 public class Gas2GasRecipeSerializer<T extends Gas2GasRecipe> extends VoltaicRecipeSerializer<T> {

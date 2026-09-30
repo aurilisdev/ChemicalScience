@@ -40,19 +40,19 @@ public class CSMultiblockProvider extends BaseMultiblockProvider {
         BlockState scaffold_manganese = CSBlocks.SCAFFOLDING_MANGANESE.get().defaultBlockState();
 
         ResourceLocation empty = ChemicalScience.rl("multiblock/empty");
-        ResourceLocation fcBottomcenter = ChemicalScience.rl("multiblock/fc_bottomcenter");
-        ResourceLocation fcBottomcorner = ChemicalScience.rl("multiblock/fc_bottomcorner");
-        ResourceLocation fcBottomseparator = ChemicalScience.rl("multiblock/fc_bottomcenter");
-        ResourceLocation fcBottomside = ChemicalScience.rl("multiblock/fc_bottomside");
-        ResourceLocation fcFluidin = ChemicalScience.rl("multiblock/fc_fluidin");
-        ResourceLocation fcFluidout = ChemicalScience.rl("multiblock/fc_fluidout");
-        ResourceLocation fcGasout = ChemicalScience.rl("multiblock/fc_gasout");
-        ResourceLocation fcGauge = ChemicalScience.rl("multiblock/fc_gauge");
-        ResourceLocation fcMetal = ChemicalScience.rl("multiblock/fc_metal");
-        ResourceLocation fcPowerin = ChemicalScience.rl("multiblock/fc_powerin");
-        ResourceLocation fcScaffold = ChemicalScience.rl("multiblock/fc_scaffold");
-        ResourceLocation fcSeparator = ChemicalScience.rl("multiblock/fc_separator");
-        ResourceLocation fcVent = ChemicalScience.rl("multiblock/fc_vent");
+//        ResourceLocation fcBottomcenter = ChemicalScience.rl("multiblock/fc_bottomcenter");
+//        ResourceLocation fcBottomcorner = ChemicalScience.rl("multiblock/fc_bottomcorner");
+//        ResourceLocation fcBottomseparator = ChemicalScience.rl("multiblock/fc_bottomcenter");
+//        ResourceLocation fcBottomside = ChemicalScience.rl("multiblock/fc_bottomside");
+//        ResourceLocation fcFluidin = ChemicalScience.rl("multiblock/fc_fluidin");
+//        ResourceLocation fcFluidout = ChemicalScience.rl("multiblock/fc_fluidout");
+//        ResourceLocation fcGasout = ChemicalScience.rl("multiblock/fc_gasout");
+//        ResourceLocation fcGauge = ChemicalScience.rl("multiblock/fc_gauge");
+//        ResourceLocation fcMetal = ChemicalScience.rl("multiblock/fc_metal");
+//        ResourceLocation fcPowerin = ChemicalScience.rl("multiblock/fc_powerin");
+//        ResourceLocation fcScaffold = ChemicalScience.rl("multiblock/fc_scaffold");
+//        ResourceLocation fcSeparator = ChemicalScience.rl("multiblock/fc_separator");
+//        ResourceLocation fcVent = ChemicalScience.rl("multiblock/fc_vent");
 
 
 

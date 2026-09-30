@@ -8,23 +8,24 @@ import net.pastek.chemicalscience.common.inventory.container.ContainerRackM;
 import net.pastek.chemicalscience.registers.CSTiles;
 import voltaic.prefab.tile.GenericTile;
 import voltaic.prefab.tile.components.IComponentType;
-import voltaic.prefab.tile.components.type.*;
+import voltaic.prefab.tile.components.type.ComponentContainerProvider;
+import voltaic.prefab.tile.components.type.ComponentInventory;
+import voltaic.prefab.tile.components.type.ComponentTickable;
 
 
 public class TileRackM extends GenericTile {
 
     public TileRackM(BlockPos worldPosition, BlockState blockState) {
         super(CSTiles.TILE_RACK_M.get(), worldPosition, blockState);
-        addComponent(new ComponentPacketHandler(this));
         addComponent(new ComponentTickable(this));
         addComponent(new ComponentInventory(this, ComponentInventory.InventoryBuilder.newInv().forceSize(27)));
-        addComponent(new ComponentContainerProvider(SubtypeChemicalMachine.rackm.tag(), this).createMenu((id, player) -> new ContainerRackM(id, player, getComponent(IComponentType.Inventory), getCoordsArray())));
+        addComponent(new ComponentContainerProvider(SubtypeChemicalMachine.rackm.tag(), this).createMenu((id, player) -> new ContainerRackM(id, player, requireComponent(IComponentType.Inventory), getCoordsArray())));
     }
 
 
     public int getCount() {
         int count = 0;
-        ComponentInventory inv = getComponent(IComponentType.Inventory);
+        ComponentInventory inv = requireComponent(IComponentType.Inventory);
         for (int i = 0; i < inv.getContainerSize(); i++) {
             ItemStack stack = inv.getItem(i);
             if (!stack.isEmpty()) {
@@ -35,7 +36,7 @@ public class TileRackM extends GenericTile {
     }
 
     public int getComparatorSignal() {
-        ComponentInventory inv = getComponent(IComponentType.Inventory);
+        ComponentInventory inv = requireComponent(IComponentType.Inventory);
         return (int) (((double) getCount() / (double) Math.max(1, inv.getContainerSize())) * 15.0);
     }
 }

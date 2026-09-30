@@ -1,6 +1,9 @@
 package net.pastek.chemicalscience.compatibility.jei.recipecategories.gasfluiditem2gasfluid;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.RecipeType;
@@ -21,6 +24,7 @@ public abstract class GasFluidItem2FluidRecipeCategory<T extends GasFluidItem2Fl
         super(guiHelper, title, inputMachine, bWrap, recipeType, animTime);
     }
 
+    @Override
     public List<List<GasStack>> getGasInputs(GasFluidItem2FluidRecipe recipe) {
         List<List<GasStack>> ingredients = new ArrayList<>();
 
@@ -34,6 +38,7 @@ public abstract class GasFluidItem2FluidRecipeCategory<T extends GasFluidItem2Fl
         return ingredients;
     }
 
+    @Override
     public List<List<FluidStack>> getFluidInputs(GasFluidItem2FluidRecipe recipe) {
         List<List<FluidStack>> ingredients = new ArrayList();
 
@@ -52,6 +57,7 @@ public abstract class GasFluidItem2FluidRecipeCategory<T extends GasFluidItem2Fl
         return ingredients;
     }
 
+    @Override
     public List<List<ItemStack>> getItemInputs(GasFluidItem2FluidRecipe recipe) {
         List<List<ItemStack>> ingredients = new ArrayList();
 
@@ -62,6 +68,7 @@ public abstract class GasFluidItem2FluidRecipeCategory<T extends GasFluidItem2Fl
         return ingredients;
     }
 
+    @Override
     public List<FluidStack> getFluidOutputs(GasFluidItem2FluidRecipe recipe) {
         List<FluidStack> outputFluids = new ArrayList<>();
         outputFluids.add(recipe.getFluidRecipeOutput());

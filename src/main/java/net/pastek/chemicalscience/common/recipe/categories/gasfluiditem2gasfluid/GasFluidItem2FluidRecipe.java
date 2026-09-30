@@ -5,7 +5,13 @@ import java.util.List;
 import com.mojang.datafixers.util.Pair;
 
 import net.neoforged.neoforge.fluids.FluidStack;
-import voltaic.common.recipe.recipeutils.*;
+import voltaic.common.recipe.recipeutils.AbstractMaterialRecipe;
+import voltaic.common.recipe.recipeutils.CountableIngredient;
+import voltaic.common.recipe.recipeutils.FluidIngredient;
+import voltaic.common.recipe.recipeutils.GasIngredient;
+import voltaic.common.recipe.recipeutils.ProbableFluid;
+import voltaic.common.recipe.recipeutils.ProbableGas;
+import voltaic.common.recipe.recipeutils.ProbableItem;
 import voltaic.prefab.tile.components.IComponentType;
 import voltaic.prefab.tile.components.type.ComponentFluidHandlerMulti;
 import voltaic.prefab.tile.components.type.ComponentGasHandlerMulti;
@@ -29,11 +35,11 @@ public abstract class GasFluidItem2FluidRecipe extends AbstractMaterialRecipe {
 
     @Override
     public boolean matchesRecipe(ComponentProcessor pr, int procNumber) {
-        Pair<List<Integer>, Boolean> itemPair = areItemsValid(getCountedIngredients(), ((ComponentInventory) pr.getHolder().getComponent(IComponentType.Inventory)).getInputsForProcessor(procNumber));
+        Pair<List<Integer>, Boolean> itemPair = areItemsValid(getCountedIngredients(), ((ComponentInventory) pr.getHolder().requireComponent(IComponentType.Inventory)).getInputsForProcessor(procNumber));
         if (itemPair.getSecond()) {
-            Pair<List<Integer>, Boolean> fluidPair = areFluidsValid(getFluidIngredients(), pr.getHolder().<ComponentFluidHandlerMulti>getComponent(IComponentType.FluidHandler).getInputTanks());
+            Pair<List<Integer>, Boolean> fluidPair = areFluidsValid(getFluidIngredients(), pr.getHolder().<ComponentFluidHandlerMulti>requireComponent(IComponentType.FluidHandler).getInputTanks());
             if (fluidPair.getSecond()) {
-                Pair<List<Integer>, Boolean> gasPair = areGasesValid(getGasIngredients(), pr.getHolder().<ComponentGasHandlerMulti>getComponent(IComponentType.GasHandler).getInputTanks());
+                Pair<List<Integer>, Boolean> gasPair = areGasesValid(getGasIngredients(), pr.getHolder().<ComponentGasHandlerMulti>requireComponent(IComponentType.GasHandler).getInputTanks());
                 if (gasPair.getSecond()) {
                     setItemArrangement(procNumber, itemPair.getFirst());
                     setFluidArrangement(fluidPair.getFirst());
@@ -60,6 +66,7 @@ public abstract class GasFluidItem2FluidRecipe extends AbstractMaterialRecipe {
         return outputStack;
     }
 
+    @Override
     public List<CountableIngredient> getCountedIngredients() {
         return ingredients;
     }

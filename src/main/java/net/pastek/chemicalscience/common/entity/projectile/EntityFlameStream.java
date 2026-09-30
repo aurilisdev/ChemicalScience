@@ -1,5 +1,8 @@
 package net.pastek.chemicalscience.common.entity.projectile;
 
+import org.jetbrains.annotations.NotNull;
+import org.joml.Vector3f;
+
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -13,15 +16,13 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.level.block.BaseFireBlock;
 import net.pastek.chemicalscience.common.reloadlistener.FlamethrowerFuelManager;
 import net.pastek.chemicalscience.registers.CSEntities;
 import net.pastek.chemicalscience.registers.CSParticles;
-import org.jetbrains.annotations.NotNull;
-import org.joml.Vector3f;
 
 public class EntityFlameStream extends Projectile implements ItemSupplier {
 

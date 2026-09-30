@@ -5,7 +5,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.pastek.chemicalscience.common.inventory.container.ContainerFuelCell;
-import net.pastek.chemicalscience.common.tile.TileFuelCell;
 import net.pastek.chemicalscience.prefab.screen.component.ScreenComponentOn;
 import voltaic.prefab.screen.component.ScreenComponentGeneric;
 import voltaic.prefab.screen.component.types.ScreenComponentProgress.ProgressTextures;
@@ -19,10 +18,7 @@ import voltaic.prefab.tile.components.type.ComponentFluidHandlerMulti;
 public class ScreenFuelCell extends GenericMaterialScreen<ContainerFuelCell> {
     public ScreenFuelCell(ContainerFuelCell container, Inventory playerInventory, Component title) {
         super(container, playerInventory, title);
-        this.addComponent(new ScreenComponentFluidGauge(() -> {
-            TileFuelCell boiler = (TileFuelCell)container.getSafeHost();
-            return boiler != null ? ((ComponentFluidHandlerMulti)boiler.getComponent(IComponentType.FluidHandler)).getInputTanks()[0] : null;
-        }, 98, 18));
+        this.addComponent(new ScreenComponentFluidGauge(() -> container.getSafeHost().map(boiler -> ((ComponentFluidHandlerMulti)boiler.requireComponent(IComponentType.FluidHandler)).getInputTanks()[0]).orElse(null), 98, 18));
         this.addComponent(new ScreenComponentGeneric(ProgressTextures.ARROW_RIGHT_OFF, 69, 33));
         this.addComponent(new ScreenComponentOn(ScreenComponentOn.ProgressBars.LIGHTNING, 119, 34));
         this.addComponent(new ScreenComponentElectricInfo(-25, 2));

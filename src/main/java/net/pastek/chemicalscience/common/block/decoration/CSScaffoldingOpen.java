@@ -1,5 +1,7 @@
 package net.pastek.chemicalscience.common.block.decoration;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -14,8 +16,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.pastek.chemicalscience.common.block.voxelshapes.CSVoxelShapes;
 
-import javax.annotation.Nullable;
-
 
 public class CSScaffoldingOpen extends Block {
     public CSScaffoldingOpen(Properties properties) {
@@ -23,6 +23,7 @@ public class CSScaffoldingOpen extends Block {
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
+    @Override
     public boolean propagatesSkylightDown(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
         return true;
     }

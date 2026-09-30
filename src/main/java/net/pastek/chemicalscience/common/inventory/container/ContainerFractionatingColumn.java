@@ -21,13 +21,14 @@ public class ContainerFractionatingColumn extends GenericContainerBlockEntity<Ti
     }
 
     public ContainerFractionatingColumn(int id, Inventory playerinv, Container inventory, ContainerData inventorydata) {
-        super((MenuType) CSMenuTypes.CONTAINER_FRACTIONATING_COLUMN.get(), id, playerinv, inventory, inventorydata);
+        super(CSMenuTypes.CONTAINER_FRACTIONATING_COLUMN.get(), id, playerinv, inventory, inventorydata);
     }
 
     public ContainerFractionatingColumn(MenuType<?> type, int id, Inventory playerinv, Container inventory, ContainerData inventorydata) {
         super(type, id, playerinv, inventory, inventorydata);
     }
 
+    @Override
     public void addInventorySlots(Container inv, Inventory playerinv) {
         setPlayerInvOffset(35);
         this.addSlot(new SlotFluid(inv, this.nextIndex(), 8, 82));

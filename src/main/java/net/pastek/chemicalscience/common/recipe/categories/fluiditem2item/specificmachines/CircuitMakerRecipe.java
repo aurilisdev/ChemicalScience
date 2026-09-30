@@ -1,6 +1,7 @@
 package net.pastek.chemicalscience.common.recipe.categories.fluiditem2item.specificmachines;
 
 import java.util.List;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -22,11 +23,13 @@ public class CircuitMakerRecipe extends FluidItem2ItemRecipe {
         super(group, inputItems, inputFluids, itemOutput, experience, ticks, usagePerTick, itemBiproducts, fluidBiproducts, gasBiproducts);
     }
 
+    @Override
     public RecipeSerializer<?> getSerializer() {
-        return (RecipeSerializer) CSRecipies.CIRCUIT_MAKER_SERIALIZER.get();
+        return CSRecipies.CIRCUIT_MAKER_SERIALIZER.get();
     }
 
+    @Override
     public RecipeType<?> getType() {
-        return (RecipeType)CSRecipies.CIRCUIT_MAKER_TYPE.get();
+        return CSRecipies.CIRCUIT_MAKER_TYPE.get();
     }
 }

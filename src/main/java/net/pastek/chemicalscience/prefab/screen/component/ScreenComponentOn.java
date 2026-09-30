@@ -1,6 +1,5 @@
 package net.pastek.chemicalscience.prefab.screen.component;
 
-import java.util.function.DoubleSupplier;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
@@ -21,10 +20,11 @@ public class ScreenComponentOn extends ScreenComponentGeneric {
         this.bar = progressBar;
     }
 
+    @Override
     public void renderBackground(GuiGraphics graphics, int xAxis, int yAxis, int guiWidth, int guiHeight) {
         super.renderBackground(graphics, xAxis, yAxis, guiWidth, guiHeight);
         ProgressTextures on = this.bar.on;
-        graphics.blit(on.getLocation(), guiWidth + this.xLocation, guiHeight + this.yLocation, (float)on.textureU(), (float)on.textureV(), (int)((double)on.textureWidth()), on.textureHeight(), on.imageWidth(), on.imageHeight());
+        graphics.blit(on.getLocation(), guiWidth + this.xLocation, guiHeight + this.yLocation, on.textureU(), on.textureV(), (on.textureWidth()), on.textureHeight(), on.imageWidth(), on.imageHeight());
     }
 
     public static enum ProgressBars {
@@ -61,31 +61,38 @@ public class ScreenComponentOn extends ScreenComponentGeneric {
             this.loc = ChemicalScience.rl("textures/screen/component/" + name + ".png");
         }
 
-        public ResourceLocation getLocation() {
+        @Override
+	public ResourceLocation getLocation() {
             return this.loc;
         }
 
-        public int imageHeight() {
+        @Override
+	public int imageHeight() {
             return this.imageHeight;
         }
 
-        public int imageWidth() {
+        @Override
+	public int imageWidth() {
             return this.imageWidth;
         }
 
-        public int textureHeight() {
+        @Override
+	public int textureHeight() {
             return this.textureHeight;
         }
 
-        public int textureU() {
+        @Override
+	public int textureU() {
             return this.textureU;
         }
 
-        public int textureV() {
+        @Override
+	public int textureV() {
             return this.textureV;
         }
 
-        public int textureWidth() {
+        @Override
+	public int textureWidth() {
             return this.textureWidth;
         }
     }

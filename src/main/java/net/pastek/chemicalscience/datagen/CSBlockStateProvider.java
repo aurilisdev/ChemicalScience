@@ -1,15 +1,15 @@
 package net.pastek.chemicalscience.datagen;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.client.model.generators.VariantBlockStateBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -20,9 +20,6 @@ import net.pastek.chemicalscience.registers.CSBlocks;
 import voltaic.Voltaic;
 import voltaic.common.block.states.VoltaicBlockStates;
 import voltaic.datagen.utils.client.BaseBlockstateProvider;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class CSBlockStateProvider extends BaseBlockstateProvider {
 

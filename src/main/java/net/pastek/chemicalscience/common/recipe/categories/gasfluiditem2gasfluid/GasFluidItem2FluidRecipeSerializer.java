@@ -9,7 +9,12 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.neoforge.fluids.FluidStack;
 import voltaic.common.recipe.VoltaicRecipeSerializer;
-import voltaic.common.recipe.recipeutils.*;
+import voltaic.common.recipe.recipeutils.CountableIngredient;
+import voltaic.common.recipe.recipeutils.FluidIngredient;
+import voltaic.common.recipe.recipeutils.GasIngredient;
+import voltaic.common.recipe.recipeutils.ProbableFluid;
+import voltaic.common.recipe.recipeutils.ProbableGas;
+import voltaic.common.recipe.recipeutils.ProbableItem;
 import voltaic.prefab.utilities.CodecUtils;
 
 public class GasFluidItem2FluidRecipeSerializer<T extends GasFluidItem2FluidRecipe> extends VoltaicRecipeSerializer<T> {

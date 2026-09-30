@@ -1,5 +1,7 @@
 package net.pastek.chemicalscience.common.block.decoration;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -14,8 +16,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.pastek.chemicalscience.common.block.voxelshapes.CSVoxelShapes;
 
-import javax.annotation.Nullable;
-
 
 public class CSLabSupport extends Block {
     public CSLabSupport(Properties properties) {
@@ -23,6 +23,7 @@ public class CSLabSupport extends Block {
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
+    @Override
     public boolean propagatesSkylightDown(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
         return true;
     }
@@ -31,9 +32,8 @@ public class CSLabSupport extends Block {
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         if(state.getValue(FACING) == Direction.SOUTH || state.getValue(FACING) ==Direction.NORTH) {
             return CSVoxelShapes.LABSUPPORT_NS;
-        } else  {
-            return CSVoxelShapes.LABSUPPORT_EW;
         }
+	return CSVoxelShapes.LABSUPPORT_EW;
     }
 
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;

@@ -4,10 +4,9 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.pastek.chemicalscience.ChemicalScience;
 import net.pastek.chemicalscience.prefab.utils.CSTextUtils;
-
-import voltaic.client.guidebook.utils.components.Module;
 import net.pastek.chemicalscience.registers.CSItems;
 import voltaic.client.guidebook.utils.components.Chapter;
+import voltaic.client.guidebook.utils.components.Module;
 import voltaic.client.guidebook.utils.pagedata.graphics.ImageWrapperObject;
 import voltaic.client.guidebook.utils.pagedata.graphics.ItemWrapperObject;
 import voltaic.client.guidebook.utils.pagedata.text.TextWrapperObject;

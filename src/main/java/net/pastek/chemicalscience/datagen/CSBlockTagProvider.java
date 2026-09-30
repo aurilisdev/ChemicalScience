@@ -1,5 +1,10 @@
 package net.pastek.chemicalscience.datagen;
 
+import java.util.concurrent.CompletableFuture;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
@@ -8,10 +13,6 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.pastek.chemicalscience.ChemicalScience;
 import net.pastek.chemicalscience.registers.CSBlocks;
 import net.pastek.chemicalscience.registers.CSTags;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.concurrent.CompletableFuture;
 
 public class CSBlockTagProvider extends BlockTagsProvider {
     public CSBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {

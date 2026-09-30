@@ -1,6 +1,7 @@
 package net.pastek.chemicalscience.client.guidebook.chapters;
 
-import voltaic.client.guidebook.utils.components.Module;
+import javax.annotation.Nullable;
+
 import electrodynamics.prefab.utilities.ElectroTextUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
@@ -10,6 +11,7 @@ import net.pastek.chemicalscience.prefab.utils.CSTextUtils;
 import net.pastek.chemicalscience.registers.CSBlocks;
 import voltaic.client.guidebook.ScreenGuidebook;
 import voltaic.client.guidebook.utils.components.Chapter;
+import voltaic.client.guidebook.utils.components.Module;
 import voltaic.client.guidebook.utils.pagedata.OnKeyPress;
 import voltaic.client.guidebook.utils.pagedata.OnTooltip;
 import voltaic.client.guidebook.utils.pagedata.graphics.AbstractGraphicWrapper;
@@ -50,7 +52,7 @@ public class ChapterOres extends Chapter {
             public void onKeyPress(int keyCode, int scanCode, int modifiers, int x, int y, int xAxis, int yAxis, ScreenGuidebook screen) {
             }
             @Override
-            public Object getJeiLookup() {
+            public @Nullable Object getJeiLookup() {
                 return new ItemStack(CSBlocks.ORE_MAGNESIUM);
             }
         }));
@@ -68,7 +70,7 @@ public class ChapterOres extends Chapter {
             public void onKeyPress(int keyCode, int scanCode, int modifiers, int x, int y, int xAxis, int yAxis, ScreenGuidebook screen) {
             }
             @Override
-            public Object getJeiLookup() {
+            public @Nullable Object getJeiLookup() {
                 return new ItemStack(CSBlocks.ORE_SILICON);
             }
         }));
@@ -86,7 +88,7 @@ public class ChapterOres extends Chapter {
             public void onKeyPress(int keyCode, int scanCode, int modifiers, int x, int y, int xAxis, int yAxis, ScreenGuidebook screen) {
             }
             @Override
-            public Object getJeiLookup() {
+            public @Nullable Object getJeiLookup() {
                 return new ItemStack(CSBlocks.ORE_ARSENOPYRITE);
             }
         }));
@@ -104,7 +106,7 @@ public class ChapterOres extends Chapter {
             public void onKeyPress(int keyCode, int scanCode, int modifiers, int x, int y, int xAxis, int yAxis, ScreenGuidebook screen) {
             }
             @Override
-            public Object getJeiLookup() {
+            public @Nullable Object getJeiLookup() {
                 return new ItemStack(CSBlocks.ORE_WOLFRAMITE);
             }
         }));
@@ -122,7 +124,7 @@ public class ChapterOres extends Chapter {
             public void onKeyPress(int keyCode, int scanCode, int modifiers, int x, int y, int xAxis, int yAxis, ScreenGuidebook screen) {
             }
             @Override
-            public Object getJeiLookup() {
+            public @Nullable Object getJeiLookup() {
                 return new ItemStack(CSBlocks.ORE_COOPERITE);
             }
         }));
@@ -140,7 +142,7 @@ public class ChapterOres extends Chapter {
             public void onKeyPress(int keyCode, int scanCode, int modifiers, int x, int y, int xAxis, int yAxis, ScreenGuidebook screen) {
             }
             @Override
-            public Object getJeiLookup() {
+            public @Nullable Object getJeiLookup() {
                 return new ItemStack(CSBlocks.ORE_PYROLUSITE);
             }
         }));
@@ -158,7 +160,7 @@ public class ChapterOres extends Chapter {
             public void onKeyPress(int keyCode, int scanCode, int modifiers, int x, int y, int xAxis, int yAxis, ScreenGuidebook screen) {
             }
             @Override
-            public Object getJeiLookup() {
+            public @Nullable Object getJeiLookup() {
                 return new ItemStack(CSBlocks.ORE_OIL);
             }
         }));

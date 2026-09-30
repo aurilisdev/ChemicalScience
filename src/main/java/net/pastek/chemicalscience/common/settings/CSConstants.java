@@ -1,6 +1,7 @@
 package net.pastek.chemicalscience.common.settings;
 
-import voltaic.api.configuration.*;
+import voltaic.api.configuration.Configuration;
+import voltaic.api.configuration.DoubleValue;
 
 @Configuration(name = "ChemicalScience")
 public class CSConstants {

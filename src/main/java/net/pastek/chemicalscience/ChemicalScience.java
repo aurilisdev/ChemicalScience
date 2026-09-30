@@ -1,14 +1,10 @@
 package net.pastek.chemicalscience;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.event.AddReloadListenerEvent;
-import net.pastek.chemicalscience.client.CSClientRegister;
-import net.pastek.chemicalscience.common.reloadlistener.FlamethrowerFuelManager;
-import net.pastek.chemicalscience.registers.CSEntities;
-import net.pastek.chemicalscience.registers.UnifiedCSRegister;
-
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -16,10 +12,14 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.pastek.chemicalscience.client.CSClientRegister;
+import net.pastek.chemicalscience.common.reloadlistener.FlamethrowerFuelManager;
+import net.pastek.chemicalscience.registers.CSEntities;
+import net.pastek.chemicalscience.registers.UnifiedCSRegister;
 
 @Mod(ChemicalScience.MOD_ID)
 public class ChemicalScience {

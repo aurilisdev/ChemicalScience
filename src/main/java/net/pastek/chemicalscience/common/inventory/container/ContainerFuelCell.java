@@ -4,7 +4,6 @@ import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.pastek.chemicalscience.common.tile.TileFuelCell;
 import net.pastek.chemicalscience.registers.CSMenuTypes;
@@ -17,9 +16,10 @@ public class ContainerFuelCell extends GenericContainerBlockEntity<TileFuelCell>
     }
 
     public ContainerFuelCell(int id, Inventory playerinv, Container inventory, ContainerData inventorydata) {
-        super((MenuType) CSMenuTypes.CONTAINER_FUELCELL.get(), id, playerinv, inventory, inventorydata);
+        super(CSMenuTypes.CONTAINER_FUELCELL.get(), id, playerinv, inventory, inventorydata);
     }
 
+    @Override
     public void addInventorySlots(Container inv, Inventory playerinv) {
         this.addSlot(new SlotFluid(inv, this.nextIndex(), 45, 34));
     }

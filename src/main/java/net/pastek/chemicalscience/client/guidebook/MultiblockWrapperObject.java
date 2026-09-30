@@ -1,14 +1,14 @@
 package net.pastek.chemicalscience.client.guidebook;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.pastek.chemicalscience.client.roadmap.MultiblockVisualizer;
 import voltaic.client.guidebook.utils.components.Page;
 import voltaic.client.guidebook.utils.pagedata.graphics.AbstractGraphicWrapper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MultiblockWrapperObject extends AbstractGraphicWrapper<MultiblockWrapperObject> {
     private final MultiblockVisualizer visualizer;
@@ -68,6 +68,7 @@ public class MultiblockWrapperObject extends AbstractGraphicWrapper<MultiblockWr
         return this;
     }
 
+    @SuppressWarnings("static-method")
     private void drawFancyTooltipBackground(GuiGraphics graphics, int x, int y, int width, int height) {
         int backgroundColor = 0xF0100010;
         int borderColorStart = 0x505000FF;

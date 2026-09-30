@@ -1,5 +1,7 @@
 package net.pastek.chemicalscience.datagen;
 
+import java.util.List;
+
 import electrodynamics.common.item.subtype.SubtypeCrystal;
 import electrodynamics.common.item.subtype.SubtypeDust;
 import electrodynamics.common.item.subtype.SubtypeRawOre;
@@ -21,8 +23,6 @@ import net.pastek.chemicalscience.ChemicalScience;
 import net.pastek.chemicalscience.registers.CSBlocks;
 import net.pastek.chemicalscience.registers.CSItems;
 import voltaic.datagen.utils.server.loottable.BaseLootTablesProvider;
-
-import java.util.List;
 
 public class CSBlockLootTableProvider extends BaseLootTablesProvider {
     public CSBlockLootTableProvider(HolderLookup.Provider provider) {
@@ -364,6 +364,7 @@ public class CSBlockLootTableProvider extends BaseLootTablesProvider {
         return CSBlocks.BLOCKS.getEntries().stream().map(Holder::value)::iterator;
     }
 
+    @Override
     public List<Block> getExcludedBlocks() {
         return List.of((Block) ElectrodynamicsBlocks.BLOCK_FRAME.get(), (Block)ElectrodynamicsBlocks.BLOCK_FRAME_CORNER.get(), (Block)ElectrodynamicsBlocks.BLOCK_COMPRESSOR_SIDE.get(), (Block)ElectrodynamicsBlocks.BLOCK_CHEMICALREACTOREXTRA_MIDDLE.get(), (Block)ElectrodynamicsBlocks.BLOCK_CHEMICALREACTOREXTRA_TOP.get());
     }

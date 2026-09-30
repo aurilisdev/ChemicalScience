@@ -1,6 +1,12 @@
 package net.pastek.chemicalscience.client;
 
+import javax.annotation.Nullable;
+
+import org.jetbrains.annotations.NotNull;
+import org.lwjgl.glfw.GLFW;
+
 import com.mojang.blaze3d.platform.InputConstants;
+
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
@@ -14,7 +20,13 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.*;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -23,17 +35,37 @@ import net.pastek.chemicalscience.client.guidebook.ModuleChemicalScience;
 import net.pastek.chemicalscience.client.model.armor.BulletProofVest;
 import net.pastek.chemicalscience.client.model.armor.OrganicNightVisionGoggles;
 import net.pastek.chemicalscience.client.particles.ColoredFlameParticle;
-import net.pastek.chemicalscience.client.render.tile.*;
+import net.pastek.chemicalscience.client.render.tile.RenderChemicalBench;
+import net.pastek.chemicalscience.client.render.tile.RenderFractionatingColumn;
+import net.pastek.chemicalscience.client.render.tile.RenderLabStorage;
+import net.pastek.chemicalscience.client.render.tile.RenderRackM;
+import net.pastek.chemicalscience.client.render.tile.RenderRackS;
+import net.pastek.chemicalscience.client.render.tile.RenderRedoxFurnace;
 import net.pastek.chemicalscience.client.roadmap.ScreenRoadMap;
-import net.pastek.chemicalscience.client.screen.*;
+import net.pastek.chemicalscience.client.screen.ScreenCatalyticReformer;
+import net.pastek.chemicalscience.client.screen.ScreenChemicalBench;
+import net.pastek.chemicalscience.client.screen.ScreenCircuitMaker;
+import net.pastek.chemicalscience.client.screen.ScreenFractionatingColumn;
+import net.pastek.chemicalscience.client.screen.ScreenFuelCell;
+import net.pastek.chemicalscience.client.screen.ScreenHDSUnit;
+import net.pastek.chemicalscience.client.screen.ScreenLabBench;
+import net.pastek.chemicalscience.client.screen.ScreenLabStorage;
+import net.pastek.chemicalscience.client.screen.ScreenRackM;
+import net.pastek.chemicalscience.client.screen.ScreenRackS;
+import net.pastek.chemicalscience.client.screen.ScreenRedoxFurnace;
+import net.pastek.chemicalscience.client.screen.ScreenSolarPanel;
+import net.pastek.chemicalscience.client.screen.ScreenSpinCoater;
+import net.pastek.chemicalscience.client.screen.ScreenSteamCracker;
 import net.pastek.chemicalscience.client.tooltip.CSTooltipRenderer;
 import net.pastek.chemicalscience.common.item.CSTooltipItem;
 import net.pastek.chemicalscience.common.item.gear.ItemFlamethrower;
 import net.pastek.chemicalscience.common.packet.PacketToggleNightVisionMode;
-import net.pastek.chemicalscience.registers.*;
+import net.pastek.chemicalscience.registers.CSEntities;
+import net.pastek.chemicalscience.registers.CSItems;
+import net.pastek.chemicalscience.registers.CSMenuTypes;
+import net.pastek.chemicalscience.registers.CSParticles;
+import net.pastek.chemicalscience.registers.CSTiles;
 import net.pastek.chemicalscience.registers.fluids.CSFluids;
-import org.jetbrains.annotations.NotNull;
-import org.lwjgl.glfw.GLFW;
 import voltaic.client.guidebook.ScreenGuidebook;
 import voltaic.client.misc.SWBFClientExtensions;
 import voltaic.common.fluid.SimpleWaterBasedFluidType;
@@ -43,8 +75,8 @@ public class CSClientRegister {
 
     public static final LayerDefinition ORGANIC_NIGHT_VISION_GOGGLES = OrganicNightVisionGoggles.createBodyLayer();
     public static final LayerDefinition BULLETPROOF_VEST = BulletProofVest.createBodyLayer(3, false);
-    private static OrganicNightVisionGoggles<LivingEntity> GOGGLES_MODEL;
-    private static BulletProofVest<LivingEntity> VEST_MODEL;
+    private static @Nullable OrganicNightVisionGoggles<LivingEntity> GOGGLES_MODEL;
+    private static @Nullable BulletProofVest<LivingEntity> VEST_MODEL;
 
     public static final ModelResourceLocation FRACTIONATINGCOLUMN_MODEL =
             ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(ChemicalScience.MOD_ID, "multiblock/fractionating_column"));
@@ -82,35 +114,37 @@ public class CSClientRegister {
         event.registerItem(new IClientItemExtensions() {
             @Override
             public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity entity, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> properties) {
-                if (GOGGLES_MODEL == null) {
-                    GOGGLES_MODEL = new OrganicNightVisionGoggles<>(CSClientRegister.ORGANIC_NIGHT_VISION_GOGGLES.bakeRoot());
+                OrganicNightVisionGoggles<LivingEntity> parGogglesModel = GOGGLES_MODEL;
+		if (parGogglesModel == null) {
+                    parGogglesModel = GOGGLES_MODEL = new OrganicNightVisionGoggles<>(CSClientRegister.ORGANIC_NIGHT_VISION_GOGGLES.bakeRoot());
                 }
 
-                ((HumanoidModel) properties).copyPropertiesTo(GOGGLES_MODEL);
+                ((HumanoidModel) properties).copyPropertiesTo(parGogglesModel);
 
-                GOGGLES_MODEL.setAllVisible(false);
-                GOGGLES_MODEL.head.visible = (armorSlot == EquipmentSlot.HEAD);
-                GOGGLES_MODEL.hat.visible = (armorSlot == EquipmentSlot.HEAD);
+                parGogglesModel.setAllVisible(false);
+                parGogglesModel.head.visible = (armorSlot == EquipmentSlot.HEAD);
+                parGogglesModel.hat.visible = (armorSlot == EquipmentSlot.HEAD);
 
-                return GOGGLES_MODEL;
+                return parGogglesModel;
             }
         }, CSItems.ORGANICNIGHTVISIONGOGGLES);
 
         event.registerItem(new IClientItemExtensions() {
             @Override
             public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity entity, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> properties) {
-                if (VEST_MODEL == null) {
-                    VEST_MODEL = new BulletProofVest<>(CSClientRegister.BULLETPROOF_VEST.bakeRoot(), armorSlot);
+                BulletProofVest<LivingEntity> parVestModel = VEST_MODEL;
+		if (parVestModel == null) {
+                    parVestModel = VEST_MODEL = new BulletProofVest<>(CSClientRegister.BULLETPROOF_VEST.bakeRoot(), armorSlot);
                 }
 
-                ((HumanoidModel) properties).copyPropertiesTo(VEST_MODEL);
+                ((HumanoidModel) properties).copyPropertiesTo(parVestModel);
 
-                VEST_MODEL.setAllVisible(false);
-                VEST_MODEL.body.visible = (armorSlot == EquipmentSlot.CHEST);
-                VEST_MODEL.rightArm.visible = (armorSlot == EquipmentSlot.CHEST);
-                VEST_MODEL.leftArm.visible = (armorSlot == EquipmentSlot.CHEST);
+                parVestModel.setAllVisible(false);
+                parVestModel.body.visible = (armorSlot == EquipmentSlot.CHEST);
+                parVestModel.rightArm.visible = (armorSlot == EquipmentSlot.CHEST);
+                parVestModel.leftArm.visible = (armorSlot == EquipmentSlot.CHEST);
 
-                return VEST_MODEL;
+                return parVestModel;
             }
         }, CSItems.BULLETPROOF_VEST);
 

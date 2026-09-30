@@ -7,7 +7,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.pastek.chemicalscience.ChemicalScience;
 import net.pastek.chemicalscience.common.inventory.container.ContainerCircuitMaker;
-import net.pastek.chemicalscience.common.tile.TileCircuitMaker;
 import voltaic.prefab.screen.component.types.ScreenComponentProgress;
 import voltaic.prefab.screen.component.types.ScreenComponentProgress.ProgressBars;
 import voltaic.prefab.screen.component.types.gauges.ScreenComponentFluidGauge;
@@ -15,7 +14,6 @@ import voltaic.prefab.screen.component.types.guitab.ScreenComponentElectricInfo;
 import voltaic.prefab.screen.component.types.wrapper.WrapperInventoryIO;
 import voltaic.prefab.screen.component.utils.AbstractScreenComponentInfo;
 import voltaic.prefab.screen.types.GenericMaterialScreen;
-import voltaic.prefab.tile.GenericTile;
 import voltaic.prefab.tile.components.IComponentType;
 import voltaic.prefab.tile.components.type.ComponentFluidHandlerMulti;
 import voltaic.prefab.tile.components.type.ComponentProcessor;
@@ -30,22 +28,15 @@ public class ScreenCircuitMaker extends GenericMaterialScreen<ContainerCircuitMa
         imageHeight += 35;
         inventoryLabelY += 35;
 
-        this.addComponent(new ScreenComponentProgress(ProgressBars.PROGRESS_ARROW_RIGHT, () -> {
-            GenericTile furnace = (GenericTile)container.getSafeHost();
-            if (furnace != null) {
-                ComponentProcessor processor = (ComponentProcessor)furnace.getComponent(IComponentType.Processor);
-                if (processor.isActive(0)) {
-                    return ((Double[])processor.operatingTicks.getValue())[0] / ((Double[])processor.requiredTicks.getValue())[0];
-                }
+        this.addComponent(new ScreenComponentProgress(ProgressBars.PROGRESS_ARROW_RIGHT, () -> container.getSafeHost().map(furnace -> {
+            ComponentProcessor processor = (ComponentProcessor)furnace.requireComponent(IComponentType.Processor);
+            if (processor.isActive(0)) {
+                return (float)(processor.operatingTicks.getValue()[0] / processor.requiredTicks.getValue()[0]);
             }
+            return 0.0F;
+        }).orElse(0.0F), 124, 54));
 
-            return (double)0.0F;
-        }, 124, 54));
-
-        this.addComponent(new ScreenComponentFluidGauge(() -> {
-            TileCircuitMaker boiler = (TileCircuitMaker)container.getSafeHost();
-            return boiler != null ? ((ComponentFluidHandlerMulti)boiler.getComponent(IComponentType.FluidHandler)).getInputTanks()[0] : null;
-        }, 9, 38));
+        this.addComponent(new ScreenComponentFluidGauge(() -> container.getSafeHost().map(boiler -> ((ComponentFluidHandlerMulti)boiler.requireComponent(IComponentType.FluidHandler)).getInputTanks()[0]).orElse(null), 9, 38));
 
         addComponent(new ScreenComponentElectricInfo(-AbstractScreenComponentInfo.SIZE + 1, 2));
         new WrapperInventoryIO(this, -AbstractScreenComponentInfo.SIZE + 1, AbstractScreenComponentInfo.SIZE + 2, 75, 117, 8, 107);

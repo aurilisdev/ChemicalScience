@@ -1,6 +1,7 @@
 package net.pastek.chemicalscience.common.recipe.categories.fluid2fluid.specificmachines;
 
 import java.util.List;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -21,11 +22,13 @@ public class FractionatingColumnRecipe extends Fluid2FluidRecipe {
         super(recipeGroup, inputFluids, outputFluid, experience, ticks, usagePerTick, itemBiproducts, fluidBiproducts, gasBiproducts);
     }
 
+    @Override
     public RecipeSerializer<?> getSerializer() {
-        return (RecipeSerializer) CSRecipies.FRACTIONATING_COLUMN_SERIALIZER.get();
+        return CSRecipies.FRACTIONATING_COLUMN_SERIALIZER.get();
     }
 
+    @Override
     public RecipeType<?> getType() {
-        return (RecipeType)CSRecipies.FRACTIONATING_COLUMN_TYPE.get();
+        return CSRecipies.FRACTIONATING_COLUMN_TYPE.get();
     }
 }

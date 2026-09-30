@@ -1,10 +1,11 @@
 package net.pastek.chemicalscience.prefab.screen.component;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -64,9 +65,8 @@ public class ScreenComponentGasInfo extends AbstractScreenComponentGauge {
         IGasTank tank = this.gasTank.get();
         if (tank != null) {
             return VoltaicClientRegister.getSprite(VoltaicClientRegister.TEXTURE_GAS).atlasLocation();
-        } else {
-            return CSTextures.GAS_INFO.getLocation();
         }
+	return CSTextures.GAS_INFO.getLocation();
     }
 
     @Override

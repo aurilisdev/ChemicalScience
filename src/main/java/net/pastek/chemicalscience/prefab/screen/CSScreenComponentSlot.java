@@ -3,7 +3,6 @@ package net.pastek.chemicalscience.prefab.screen;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.Slot;
 import net.pastek.chemicalscience.ChemicalScience;
-import voltaic.Voltaic;
 import voltaic.api.screen.ITexture;
 import voltaic.api.screen.component.ISlotTexture;
 import voltaic.prefab.screen.component.types.ScreenComponentSlot;
@@ -14,7 +13,7 @@ public class CSScreenComponentSlot extends ScreenComponentSlot {
     }
 
     public static enum IconType implements ITexture {
-        NONE(0, 0, 0, 0, 0, 0, (String)null),
+        NONE(0, 0, 0, 0, 0, 0, ""),
         CATALYST_ICON(
                 0, 0,
                 18, 18,
@@ -40,31 +39,38 @@ public class CSScreenComponentSlot extends ScreenComponentSlot {
             this.loc = ChemicalScience.rl("textures/screen/component/icon/" + name + ".png");
         }
 
-        public ResourceLocation getLocation() {
+        @Override
+	public ResourceLocation getLocation() {
             return this.loc;
         }
 
-        public int imageHeight() {
+        @Override
+	public int imageHeight() {
             return this.imageHeight;
         }
 
-        public int imageWidth() {
+        @Override
+	public int imageWidth() {
             return this.imageWidth;
         }
 
-        public int textureHeight() {
+        @Override
+	public int textureHeight() {
             return this.textureHeight;
         }
 
-        public int textureU() {
+        @Override
+	public int textureU() {
             return this.textureU;
         }
 
-        public int textureV() {
+        @Override
+	public int textureV() {
             return this.textureV;
         }
 
-        public int textureWidth() {
+        @Override
+	public int textureWidth() {
             return this.textureWidth;
         }
     }

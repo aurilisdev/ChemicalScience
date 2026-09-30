@@ -4,11 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.jetbrains.annotations.NotNull;
+
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.neoforge.NeoForgeTypes;
-import mezz.jei.api.registration.*;
+import mezz.jei.api.registration.IExtraIngredientRegistration;
+import mezz.jei.api.registration.IGuiHandlerRegistration;
+import mezz.jei.api.registration.IRecipeCatalystRegistration;
+import mezz.jei.api.registration.IRecipeCategoryRegistration;
+import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.resources.ResourceLocation;
@@ -18,7 +24,14 @@ import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.pastek.chemicalscience.ChemicalScience;
-import net.pastek.chemicalscience.client.screen.*;
+import net.pastek.chemicalscience.client.screen.ScreenCatalyticReformer;
+import net.pastek.chemicalscience.client.screen.ScreenChemicalBench;
+import net.pastek.chemicalscience.client.screen.ScreenCircuitMaker;
+import net.pastek.chemicalscience.client.screen.ScreenFractionatingColumn;
+import net.pastek.chemicalscience.client.screen.ScreenHDSUnit;
+import net.pastek.chemicalscience.client.screen.ScreenRedoxFurnace;
+import net.pastek.chemicalscience.client.screen.ScreenSpinCoater;
+import net.pastek.chemicalscience.client.screen.ScreenSteamCracker;
 import net.pastek.chemicalscience.compatibility.jei.recipecategories.fluid2fluid.FractionatingColumnRecipeCategory;
 import net.pastek.chemicalscience.compatibility.jei.recipecategories.fluid2item.SpinCoaterRecipeCategory;
 import net.pastek.chemicalscience.compatibility.jei.recipecategories.fluiditem2fluid.CatalyticReformerRecipeCategory;
@@ -30,7 +43,6 @@ import net.pastek.chemicalscience.compatibility.jei.recipecategories.misc.Chemic
 import net.pastek.chemicalscience.registers.CSRecipies;
 import net.pastek.chemicalscience.registers.fluids.CSFluids;
 import net.pastek.chemicalscience.registers.gases.CSGases;
-import org.jetbrains.annotations.NotNull;
 import voltaic.api.gas.Gas;
 import voltaic.api.gas.GasStack;
 import voltaic.compatibility.jei.utils.ingredients.VoltaicJeiTypes;
@@ -46,6 +58,7 @@ public class CSJEIPlugin implements IModPlugin {
         return ID;
     }
 
+    @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(CircuitMakerRecipeCategory.INPUT_MACHINE, CircuitMakerRecipeCategory.RECIPE_TYPE);
         registration.addRecipeCatalyst(FractionatingColumnRecipeCategory.INPUT_MACHINE, FractionatingColumnRecipeCategory.RECIPE_TYPE);
@@ -57,6 +70,7 @@ public class CSJEIPlugin implements IModPlugin {
         registration.addRecipeCatalyst(RedoxFurnaceRecipeCategory.INPUT_MACHINE, RedoxFurnaceRecipeCategory.RECIPE_TYPE);
     }
 
+    @Override
     public void registerRecipes(IRecipeRegistration registration) {
         Minecraft mc = Minecraft.getInstance();
         ClientLevel world = Objects.requireNonNull(mc.level);
@@ -72,6 +86,7 @@ public class CSJEIPlugin implements IModPlugin {
 
     }
 
+    @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
         IGuiHelper guiHelper = registration.getJeiHelpers().getGuiHelper();
         registration.addRecipeCategories(new CircuitMakerRecipeCategory(guiHelper));
@@ -84,6 +99,7 @@ public class CSJEIPlugin implements IModPlugin {
         registration.addRecipeCategories(new RedoxFurnaceRecipeCategory(guiHelper));
     }
 
+    @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registry) {
         registry.addRecipeClickArea(ScreenCircuitMaker.class, 124, 54, 22, 16, CircuitMakerRecipeCategory.RECIPE_TYPE);
         registry.addRecipeClickArea(ScreenFractionatingColumn.class, 39, 34, 64, 15, FractionatingColumnRecipeCategory.RECIPE_TYPE);

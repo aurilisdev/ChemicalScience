@@ -1,7 +1,10 @@
 package net.pastek.chemicalscience.client.render.tile;
 
+import javax.annotation.Nullable;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -21,7 +24,7 @@ public class RenderRedoxFurnace implements BlockEntityRenderer<TileRedoxFurnace>
 
     public RenderRedoxFurnace(BlockEntityRendererProvider.Context context) {}
 
-    private BakedModel cachedModel = null;
+    private @Nullable BakedModel cachedModel = null;
     private boolean modelLoadAttempted = false;
 
     @Override
@@ -30,18 +33,19 @@ public class RenderRedoxFurnace implements BlockEntityRenderer<TileRedoxFurnace>
 
         if (tile.isFormed.getValue() == true) {
 
-            if (!modelLoadAttempted) {
-                cachedModel = Minecraft.getInstance().getModelManager().getModel(CSClientRegister.REDOXFURNACE_MODEL);
+            BakedModel parCachedModel = cachedModel;
+	    if (!modelLoadAttempted) {
+                parCachedModel = cachedModel = Minecraft.getInstance().getModelManager().getModel(CSClientRegister.REDOXFURNACE_MODEL);
                 modelLoadAttempted = true;
 
-                if (cachedModel == Minecraft.getInstance().getModelManager().getMissingModel()) {
+                if (parCachedModel == Minecraft.getInstance().getModelManager().getMissingModel()) {
                     System.err.println("ERROR: Missing Multiblock Model at: " + CSClientRegister.REDOXFURNACE_MODEL);
-                    cachedModel = null;
+                    parCachedModel = cachedModel = null;
                     return;
                 }
             }
 
-            if (cachedModel == null) return;
+            if (parCachedModel == null) return;
 
             poseStack.pushPose();
 
@@ -57,7 +61,7 @@ public class RenderRedoxFurnace implements BlockEntityRenderer<TileRedoxFurnace>
                     poseStack.last(),
                     buffer.getBuffer(RenderType.cutout()),
                     state,
-                    cachedModel,
+                    parCachedModel,
                     1f, 1f, 1f,
                     packedLight,
                     packedOverlay

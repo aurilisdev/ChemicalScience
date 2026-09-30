@@ -1,7 +1,10 @@
 package net.pastek.chemicalscience.client.model.armor;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -16,7 +19,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.pastek.chemicalscience.ChemicalScience;
 import net.pastek.chemicalscience.common.item.gear.armor.types.ItemBulletProofVest;
-import org.jetbrains.annotations.NotNull;
 import voltaic.client.model.armor.GenericArmorModel;
 
 public class BulletProofVest<T extends LivingEntity> extends GenericArmorModel<T> {
@@ -64,6 +66,7 @@ public class BulletProofVest<T extends LivingEntity> extends GenericArmorModel<T
         return LayerDefinition.create(mesh, 32, 32);
     }
 
+    @Override
     public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, int light) {
         if (this.parentHead.visible) {
             this.parentHead.render(poseStack, this.getCustomConsumer(RenderType.entityTranslucent(ItemBulletProofVest.ARMOR_TEXTURE_LOCATION)), packedLight, packedOverlay);

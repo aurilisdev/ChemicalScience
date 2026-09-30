@@ -1,20 +1,21 @@
 package net.pastek.chemicalscience.common.item;
 
+import java.util.List;
+import java.util.Optional;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
-import java.util.Optional;
 
 public class CSTooltipItem extends Item {
     private final Component description;
-    @Nullable
-    private final ResourceLocation imageLocation;
+    
+    private final @Nullable ResourceLocation imageLocation;
     private final int imgW, imgH;
 
     public CSTooltipItem(Properties properties, Component description, @Nullable ResourceLocation image, int imgW, int imgH) {
@@ -27,9 +28,7 @@ public class CSTooltipItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        if (description != null) {
             tooltipComponents.add(description);
-        }
     }
 
     @Override

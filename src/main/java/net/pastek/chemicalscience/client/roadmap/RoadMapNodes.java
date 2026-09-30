@@ -1,5 +1,10 @@
 package net.pastek.chemicalscience.client.roadmap;
 
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import electrodynamics.common.block.subtype.SubtypeMachine;
 import electrodynamics.common.block.subtype.SubtypeResourceBlock;
 import electrodynamics.common.block.subtype.SubtypeWire;
@@ -20,12 +25,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.pastek.chemicalscience.ChemicalScience;
 import net.pastek.chemicalscience.registers.CSBlocks;
 import voltaic.registers.VoltaicItems;
-
-import java.awt.*;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class RoadMapNodes {
 

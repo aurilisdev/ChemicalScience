@@ -26,6 +26,7 @@ public class ContainerCircuitMaker extends GenericContainerBlockEntity<TileCircu
         super(CSMenuTypes.CONTAINER_CIRCUIT_MAKER.get(), id, playerinv, inventory, inventorydata);
     }
 
+    @Override
     public void addInventorySlots(Container inv, Inventory playerinv) {
         setPlayerInvOffset(35);
         addSlot((new SlotGeneric(inv, nextIndex(), 8, 18)).setIOColor(new Color(0, 240, 255, 255)));

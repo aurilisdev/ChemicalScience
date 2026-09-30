@@ -1,14 +1,15 @@
 package net.pastek.chemicalscience.common.recipe;
 
+import java.util.List;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.crafting.Ingredient;
 import voltaic.common.recipe.recipeutils.CountableIngredient;
-
-import java.util.List;
 
 public record CSCountableIngredient(CountableIngredient ingredient, boolean isCatalyst) {
     public static final Codec<CSCountableIngredient> CODEC = RecordCodecBuilder.create(inst -> inst.group(

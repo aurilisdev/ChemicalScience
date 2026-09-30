@@ -25,6 +25,7 @@ public class ContainerRedoxFurnace extends GenericContainerBlockEntity<TileRedox
         super(CSMenuTypes.CONTAINER_REDOX_FURNACE.get(), id, playerinv, inventory, inventorydata);
     }
 
+    @Override
     public void addInventorySlots(Container inv, Inventory playerinv) {
         setPlayerInvOffset(35);
         addSlot((new SlotGeneric(inv, nextIndex(), 8, 64)).setIOColor(new Color(0, 240, 255, 255)));

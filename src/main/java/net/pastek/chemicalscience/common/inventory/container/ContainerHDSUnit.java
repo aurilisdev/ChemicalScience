@@ -26,13 +26,14 @@ public class ContainerHDSUnit extends GenericContainerBlockEntity<TileHDSUnit> {
     }
 
     public ContainerHDSUnit(int id, Inventory playerinv, Container inventory, ContainerData inventorydata) {
-        super((MenuType) CSMenuTypes.CONTAINER_HDS_UNIT.get(), id, playerinv, inventory, inventorydata);
+        super(CSMenuTypes.CONTAINER_HDS_UNIT.get(), id, playerinv, inventory, inventorydata);
     }
 
     public ContainerHDSUnit(MenuType<?> type, int id, Inventory playerinv, Container inventory, ContainerData inventorydata) {
         super(type, id, playerinv, inventory, inventorydata);
     }
 
+    @Override
     public void addInventorySlots(Container inv, Inventory playerinv) {
         setPlayerInvOffset(35);
         this.addSlot((new SlotGeneric(ScreenComponentSlot.SlotType.NORMAL, CSTextures.CATALYST_ICON, inv, this.nextIndex(), 80, 28)).setIOColor(new Color(80, 160, 130, 0)));

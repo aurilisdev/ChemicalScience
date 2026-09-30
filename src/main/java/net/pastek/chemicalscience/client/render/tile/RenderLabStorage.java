@@ -1,6 +1,7 @@
 package net.pastek.chemicalscience.client.render.tile;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -25,9 +26,9 @@ public class RenderLabStorage extends AbstractTileRenderer<TileLabStorage> {
         if (tile.getCount() <= 0) {
             return;
         }
-        ItemStack stack1 = tile.<ComponentInventory>getComponent(IComponentType.Inventory).getItem(27);
-        ItemStack stack2 = tile.<ComponentInventory>getComponent(IComponentType.Inventory).getItem(28);
-        ItemStack stack3 = tile.<ComponentInventory>getComponent(IComponentType.Inventory).getItem(29);
+        ItemStack stack1 = tile.<ComponentInventory>requireComponent(IComponentType.Inventory).getItem(27);
+        ItemStack stack2 = tile.<ComponentInventory>requireComponent(IComponentType.Inventory).getItem(28);
+        ItemStack stack3 = tile.<ComponentInventory>requireComponent(IComponentType.Inventory).getItem(29);
         if (stack1.getTags().noneMatch(tag -> tag == CSTags.Items.HAZARD_SYMBOL) && stack2.getTags().noneMatch(tag -> tag == CSTags.Items.HAZARD_SYMBOL) && stack3.getTags().noneMatch(tag -> tag == CSTags.Items.HAZARD_SYMBOL) ) {
             return;
         }

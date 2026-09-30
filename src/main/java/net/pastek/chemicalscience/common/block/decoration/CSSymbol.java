@@ -1,6 +1,7 @@
 package net.pastek.chemicalscience.common.block.decoration;
 
 import com.mojang.serialization.MapCodec;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;

@@ -7,21 +7,17 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.pastek.chemicalscience.ChemicalScience;
 import net.pastek.chemicalscience.common.inventory.container.ContainerChemicalBench;
-import net.pastek.chemicalscience.common.tile.TileChemicalBench;
-import net.pastek.chemicalscience.common.tile.TileCircuitMaker;
 import net.pastek.chemicalscience.prefab.screen.component.ScreenComponentFluidInfo;
 import net.pastek.chemicalscience.prefab.screen.component.ScreenComponentGasInfo;
 import voltaic.prefab.screen.component.types.ScreenComponentProgress;
 import voltaic.prefab.screen.component.types.ScreenComponentProgress.ProgressBars;
 import voltaic.prefab.screen.component.types.ScreenComponentSimpleLabel;
-import voltaic.prefab.screen.component.types.gauges.ScreenComponentFluidGauge;
 import voltaic.prefab.screen.component.types.guitab.ScreenComponentElectricInfo;
 import voltaic.prefab.screen.component.types.wrapper.WrapperCyclableFluidGauge;
 import voltaic.prefab.screen.component.types.wrapper.WrapperCyclableGasGauge;
 import voltaic.prefab.screen.component.types.wrapper.WrapperInventoryIO;
 import voltaic.prefab.screen.component.utils.AbstractScreenComponentInfo;
 import voltaic.prefab.screen.types.GenericMaterialScreen;
-import voltaic.prefab.tile.GenericTile;
 import voltaic.prefab.tile.components.IComponentType;
 import voltaic.prefab.tile.components.type.ComponentFluidHandlerMulti;
 import voltaic.prefab.tile.components.type.ComponentGasHandlerMulti;
@@ -38,17 +34,13 @@ public class ScreenChemicalBench extends GenericMaterialScreen<ContainerChemical
         imageHeight += 70;
         inventoryLabelY += 70;
 
-        this.addComponent(new ScreenComponentProgress(ProgressBars.PROGRESS_ARROW_RIGHT_BIG, () -> {
-            GenericTile furnace = (GenericTile)container.getSafeHost();
-            if (furnace != null) {
-                ComponentProcessor processor = (ComponentProcessor)furnace.getComponent(IComponentType.Processor);
-                if (processor.isActive(0)) {
-                    return ((Double[])processor.operatingTicks.getValue())[0] / ((Double[])processor.requiredTicks.getValue())[0];
-                }
+        this.addComponent(new ScreenComponentProgress(ProgressBars.PROGRESS_ARROW_RIGHT_BIG, () -> container.getSafeHost().map(furnace -> {
+            ComponentProcessor processor = (ComponentProcessor)furnace.requireComponent(IComponentType.Processor);
+            if (processor.isActive(0)) {
+                return (float)(processor.operatingTicks.getValue()[0] / processor.requiredTicks.getValue()[0]);
             }
-
-            return (double)0.0F;
-        }, 56, 49));
+            return 0.0F;
+        }).orElse(0.0F), 56, 49));
 
         WrapperCyclableFluidGauge fluidOutput = new WrapperCyclableFluidGauge(135, 24, container, this, false);
         WrapperCyclableFluidGauge fluidInput = new WrapperCyclableFluidGauge(9, 24, container, this, true);
@@ -80,72 +72,24 @@ public class ScreenChemicalBench extends GenericMaterialScreen<ContainerChemical
         });
 
         this.addComponent(new ScreenComponentSimpleLabel(-36, 66, 10, new Color(175, 186, 196, 255), Component.translatable("container.chemicalbench.inputfluids")));
-        this.addComponent(new ScreenComponentFluidInfo(() -> {
-            TileChemicalBench boiler = (TileChemicalBench)container.getSafeHost();
-            return boiler != null ? ((ComponentFluidHandlerMulti)boiler.getComponent(IComponentType.FluidHandler)).getInputTanks()[0] : null;
-        }, -39, 76));
-        this.addComponent(new ScreenComponentFluidInfo(() -> {
-            TileChemicalBench boiler = (TileChemicalBench)container.getSafeHost();
-            return boiler != null ? ((ComponentFluidHandlerMulti)boiler.getComponent(IComponentType.FluidHandler)).getInputTanks()[1] : null;
-        }, -39, 86));
-        this.addComponent(new ScreenComponentFluidInfo(() -> {
-            TileChemicalBench boiler = (TileChemicalBench)container.getSafeHost();
-            return boiler != null ? ((ComponentFluidHandlerMulti)boiler.getComponent(IComponentType.FluidHandler)).getInputTanks()[2] : null;
-        }, -39, 96));
-        this.addComponent(new ScreenComponentFluidInfo(() -> {
-            TileChemicalBench boiler = (TileChemicalBench)container.getSafeHost();
-            return boiler != null ? ((ComponentFluidHandlerMulti)boiler.getComponent(IComponentType.FluidHandler)).getInputTanks()[3] : null;
-        }, -39, 106));
-        this.addComponent(new ScreenComponentGasInfo(() -> {
-            TileChemicalBench boiler = (TileChemicalBench)container.getSafeHost();
-            return boiler != null ? ((ComponentGasHandlerMulti)boiler.getComponent(IComponentType.GasHandler)).getInputTanks()[0] : null;
-        }, -20, 76));
-        this.addComponent(new ScreenComponentGasInfo(() -> {
-            TileChemicalBench boiler = (TileChemicalBench)container.getSafeHost();
-            return boiler != null ? ((ComponentGasHandlerMulti)boiler.getComponent(IComponentType.GasHandler)).getInputTanks()[1] : null;
-        }, -20, 86));
-        this.addComponent(new ScreenComponentGasInfo(() -> {
-            TileChemicalBench boiler = (TileChemicalBench)container.getSafeHost();
-            return boiler != null ? ((ComponentGasHandlerMulti)boiler.getComponent(IComponentType.GasHandler)).getInputTanks()[2] : null;
-        }, -20, 96));
-        this.addComponent(new ScreenComponentGasInfo(() -> {
-            TileChemicalBench boiler = (TileChemicalBench)container.getSafeHost();
-            return boiler != null ? ((ComponentGasHandlerMulti)boiler.getComponent(IComponentType.GasHandler)).getInputTanks()[3] : null;
-        }, -20, 106));
+        this.addComponent(new ScreenComponentFluidInfo(() -> container.getSafeHost().map(boiler -> ((ComponentFluidHandlerMulti)boiler.requireComponent(IComponentType.FluidHandler)).getInputTanks()[0]).orElse(null), -39, 76));
+        this.addComponent(new ScreenComponentFluidInfo(() -> container.getSafeHost().map(boiler -> ((ComponentFluidHandlerMulti)boiler.requireComponent(IComponentType.FluidHandler)).getInputTanks()[1]).orElse(null), -39, 86));
+        this.addComponent(new ScreenComponentFluidInfo(() -> container.getSafeHost().map(boiler -> ((ComponentFluidHandlerMulti)boiler.requireComponent(IComponentType.FluidHandler)).getInputTanks()[2]).orElse(null), -39, 96));
+        this.addComponent(new ScreenComponentFluidInfo(() -> container.getSafeHost().map(boiler -> ((ComponentFluidHandlerMulti)boiler.requireComponent(IComponentType.FluidHandler)).getInputTanks()[3]).orElse(null), -39, 106));
+        this.addComponent(new ScreenComponentGasInfo(() -> container.getSafeHost().map(boiler -> ((ComponentGasHandlerMulti)boiler.requireComponent(IComponentType.GasHandler)).getInputTanks()[0]).orElse(null), -20, 76));
+        this.addComponent(new ScreenComponentGasInfo(() -> container.getSafeHost().map(boiler -> ((ComponentGasHandlerMulti)boiler.requireComponent(IComponentType.GasHandler)).getInputTanks()[1]).orElse(null), -20, 86));
+        this.addComponent(new ScreenComponentGasInfo(() -> container.getSafeHost().map(boiler -> ((ComponentGasHandlerMulti)boiler.requireComponent(IComponentType.GasHandler)).getInputTanks()[2]).orElse(null), -20, 96));
+        this.addComponent(new ScreenComponentGasInfo(() -> container.getSafeHost().map(boiler -> ((ComponentGasHandlerMulti)boiler.requireComponent(IComponentType.GasHandler)).getInputTanks()[3]).orElse(null), -20, 106));
 
         this.addComponent(new ScreenComponentSimpleLabel(-36, 118, 10, new Color(175, 186, 196, 255), Component.translatable("container.chemicalbench.outputfluids")));
-        this.addComponent(new ScreenComponentFluidInfo(() -> {
-            TileChemicalBench boiler = (TileChemicalBench)container.getSafeHost();
-            return boiler != null ? ((ComponentFluidHandlerMulti)boiler.getComponent(IComponentType.FluidHandler)).getOutputTanks()[0] : null;
-        }, -39, 128));
-        this.addComponent(new ScreenComponentFluidInfo(() -> {
-            TileChemicalBench boiler = (TileChemicalBench)container.getSafeHost();
-            return boiler != null ? ((ComponentFluidHandlerMulti)boiler.getComponent(IComponentType.FluidHandler)).getOutputTanks()[1] : null;
-        }, -39, 138));
-        this.addComponent(new ScreenComponentFluidInfo(() -> {
-            TileChemicalBench boiler = (TileChemicalBench)container.getSafeHost();
-            return boiler != null ? ((ComponentFluidHandlerMulti)boiler.getComponent(IComponentType.FluidHandler)).getOutputTanks()[2] : null;
-        }, -39, 148));
-        this.addComponent(new ScreenComponentFluidInfo(() -> {
-            TileChemicalBench boiler = (TileChemicalBench)container.getSafeHost();
-            return boiler != null ? ((ComponentFluidHandlerMulti)boiler.getComponent(IComponentType.FluidHandler)).getOutputTanks()[3] : null;
-        }, -39, 158));
-        this.addComponent(new ScreenComponentGasInfo(() -> {
-            TileChemicalBench boiler = (TileChemicalBench)container.getSafeHost();
-            return boiler != null ? ((ComponentGasHandlerMulti)boiler.getComponent(IComponentType.GasHandler)).getOutputTanks()[0] : null;
-        }, -20, 128));
-        this.addComponent(new ScreenComponentGasInfo(() -> {
-            TileChemicalBench boiler = (TileChemicalBench)container.getSafeHost();
-            return boiler != null ? ((ComponentGasHandlerMulti)boiler.getComponent(IComponentType.GasHandler)).getOutputTanks()[1] : null;
-        }, -20, 138));
-        this.addComponent(new ScreenComponentGasInfo(() -> {
-            TileChemicalBench boiler = (TileChemicalBench)container.getSafeHost();
-            return boiler != null ? ((ComponentGasHandlerMulti)boiler.getComponent(IComponentType.GasHandler)).getOutputTanks()[2] : null;
-        }, -20, 148));
-        this.addComponent(new ScreenComponentGasInfo(() -> {
-            TileChemicalBench boiler = (TileChemicalBench)container.getSafeHost();
-            return boiler != null ? ((ComponentGasHandlerMulti)boiler.getComponent(IComponentType.GasHandler)).getOutputTanks()[3] : null;
-        }, -20, 158));
+        this.addComponent(new ScreenComponentFluidInfo(() -> container.getSafeHost().map(boiler -> ((ComponentFluidHandlerMulti)boiler.requireComponent(IComponentType.FluidHandler)).getOutputTanks()[0]).orElse(null), -39, 128));
+        this.addComponent(new ScreenComponentFluidInfo(() -> container.getSafeHost().map(boiler -> ((ComponentFluidHandlerMulti)boiler.requireComponent(IComponentType.FluidHandler)).getOutputTanks()[1]).orElse(null), -39, 138));
+        this.addComponent(new ScreenComponentFluidInfo(() -> container.getSafeHost().map(boiler -> ((ComponentFluidHandlerMulti)boiler.requireComponent(IComponentType.FluidHandler)).getOutputTanks()[2]).orElse(null), -39, 148));
+        this.addComponent(new ScreenComponentFluidInfo(() -> container.getSafeHost().map(boiler -> ((ComponentFluidHandlerMulti)boiler.requireComponent(IComponentType.FluidHandler)).getOutputTanks()[3]).orElse(null), -39, 158));
+        this.addComponent(new ScreenComponentGasInfo(() -> container.getSafeHost().map(boiler -> ((ComponentGasHandlerMulti)boiler.requireComponent(IComponentType.GasHandler)).getOutputTanks()[0]).orElse(null), -20, 128));
+        this.addComponent(new ScreenComponentGasInfo(() -> container.getSafeHost().map(boiler -> ((ComponentGasHandlerMulti)boiler.requireComponent(IComponentType.GasHandler)).getOutputTanks()[1]).orElse(null), -20, 138));
+        this.addComponent(new ScreenComponentGasInfo(() -> container.getSafeHost().map(boiler -> ((ComponentGasHandlerMulti)boiler.requireComponent(IComponentType.GasHandler)).getOutputTanks()[2]).orElse(null), -20, 148));
+        this.addComponent(new ScreenComponentGasInfo(() -> container.getSafeHost().map(boiler -> ((ComponentGasHandlerMulti)boiler.requireComponent(IComponentType.GasHandler)).getOutputTanks()[3]).orElse(null), -20, 158));
 
         this.addComponent(new ScreenComponentElectricInfo(-AbstractScreenComponentInfo.SIZE + 1, 2));
     }

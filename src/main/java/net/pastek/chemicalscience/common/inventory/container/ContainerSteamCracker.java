@@ -6,17 +6,13 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.SimpleContainerData;
-import net.pastek.chemicalscience.common.tile.TileHDSUnit;
 import net.pastek.chemicalscience.common.tile.TileSteamCracker;
 import net.pastek.chemicalscience.registers.CSMenuTypes;
 import voltaic.common.item.subtype.SubtypeItemUpgrade;
-import voltaic.prefab.inventory.container.slot.item.SlotGeneric;
-import voltaic.prefab.inventory.container.slot.item.type.SlotFluid;
 import voltaic.prefab.inventory.container.slot.item.type.SlotGas;
 import voltaic.prefab.inventory.container.slot.item.type.SlotRestricted;
 import voltaic.prefab.inventory.container.slot.item.type.SlotUpgrade;
 import voltaic.prefab.inventory.container.types.GenericContainerBlockEntity;
-import voltaic.prefab.utilities.math.Color;
 
 public class ContainerSteamCracker extends GenericContainerBlockEntity<TileSteamCracker> {
     public static final SubtypeItemUpgrade[] VALID_UPGRADES;
@@ -26,13 +22,14 @@ public class ContainerSteamCracker extends GenericContainerBlockEntity<TileSteam
     }
 
     public ContainerSteamCracker(int id, Inventory playerinv, Container inventory, ContainerData inventorydata) {
-        super((MenuType) CSMenuTypes.CONTAINER_STEAM_CRACKER.get(), id, playerinv, inventory, inventorydata);
+        super(CSMenuTypes.CONTAINER_STEAM_CRACKER.get(), id, playerinv, inventory, inventorydata);
     }
 
     public ContainerSteamCracker(MenuType<?> type, int id, Inventory playerinv, Container inventory, ContainerData inventorydata) {
         super(type, id, playerinv, inventory, inventorydata);
     }
 
+    @Override
     public void addInventorySlots(Container inv, Inventory playerinv) {
         setPlayerInvOffset(35);
         this.addSlot(new SlotRestricted(inv, this.nextIndex(), 80, 45));
